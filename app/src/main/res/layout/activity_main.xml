@@ -12,7 +12,7 @@
         android:text="@string/button_dropbox_settings"
         android:id="@+id/button_dropbox_settings"
         android:onClick="onClickDropboxActivity"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="73dp" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

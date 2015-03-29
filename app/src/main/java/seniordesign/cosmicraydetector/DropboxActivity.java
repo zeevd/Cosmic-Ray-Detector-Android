@@ -5,14 +5,23 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxAccountManager;
+import com.dropbox.sync.android.DbxException;
+import com.dropbox.sync.android.DbxFile;
+import com.dropbox.sync.android.DbxFileSystem;
+import com.dropbox.sync.android.DbxPath;
+
+import java.io.IOException;
 
 public class DropboxActivity extends ActionBarActivity {
-    private DbxAccountManager dbxAcctMgr;
+    private DbxAccountManager mDbxAcctMgr;
+    private DbxFileSystem dbxFs;
+
     private TextView linkStatus;
     final static int dropboxRequestCode=0;
 
@@ -26,18 +35,18 @@ public class DropboxActivity extends ActionBarActivity {
 
     public void init(){
         //Init account manager
-        dbxAcctMgr = DbxAccountManager.getInstance(getApplicationContext(), "ogamnznpp7actyg", "98jkkfgplqciq9l");
+        mDbxAcctMgr = DbxAccountManager.getInstance(getApplicationContext(), "ogamnznpp7actyg", "98jkkfgplqciq9l");
         //Init View components
         linkStatus = (TextView) findViewById(R.id.textview_link_status);
     }
 
     public boolean isLinked(){
-        return dbxAcctMgr.hasLinkedAccount();
+        return mDbxAcctMgr.hasLinkedAccount();
     }
 
     private void updateLinkStatus(){
         if (isLinked()){
-            linkStatus.setText("Linked account: " + dbxAcctMgr.getLinkedAccount().getAccountInfo().userName);
+            linkStatus.setText("Linked account: " + mDbxAcctMgr.getLinkedAccount().getAccountInfo().userName);
             linkStatus.setTextColor(Color.GREEN);
         }
         else{
@@ -52,7 +61,7 @@ public class DropboxActivity extends ActionBarActivity {
     }
 
     public void onClickLinkDropbox(View view) {
-        dbxAcctMgr.startLink((Activity) this, dropboxRequestCode);
+        mDbxAcctMgr.startLink((Activity) this, dropboxRequestCode);
     }
 
     @Override
@@ -71,4 +80,23 @@ public class DropboxActivity extends ActionBarActivity {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
+//    private void tempReadContent() {
+//        try {
+//            dbxFs = DbxFileSystem.forAccount(mDbxAcctMgr.getLinkedAccount());
+//            DbxPath path = new DbxPath("/System.txt");
+//            DbxFile testFile = dbxFs.open(path);
+//            String contents = testFile.readString();
+//            Log.d("Dropbox Test", "File contents: " + contents);
+//
+//        } catch (DbxException.Unauthorized unauthorized) {
+//            unauthorized.printStackTrace();
+//        } catch (DbxException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//            // testFile.close();
+//        }
+//    }
 }

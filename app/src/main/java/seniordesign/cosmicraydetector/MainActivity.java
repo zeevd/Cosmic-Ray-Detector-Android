@@ -1,5 +1,6 @@
 package seniordesign.cosmicraydetector;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        checkFirstRun();
     }
 
     @Override
@@ -42,5 +44,21 @@ public class MainActivity extends ActionBarActivity {
     public void onClickDropboxActivity(View view) {
         Intent myIntent = new Intent(MainActivity.this, DropboxActivity.class);
         MainActivity.this.startActivity(myIntent);
+    }
+
+    public void checkFirstRun() {
+        boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
+        if (isFirstRun){
+            new AlertDialog.Builder(this)
+                    .setTitle("Welcome to the Cosmic Ray Detector Application")
+                    .setMessage("Please sync your Dropbox to the applcation by clicking \""
+                            + getString(R.string.button_dropbox_settings) + "\" followed by \"" +
+                    getString(R.string.button_link_dropbox) + "\"")
+                    .setNeutralButton("Will Do!",null)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+
+            getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isFirstRun", false).apply();
+        }
     }
 }
