@@ -8,6 +8,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import seniordesign.cosmicraydetector.androidplot.AndroidPlotXYActivity;
+import seniordesign.cosmicraydetector.dropbox.DropboxActivity;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -32,17 +35,31 @@ public class MainActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch(id){
+            case R.id.action_about:
+                launchAboutActivity();
+                break;
+            case R.id.action_help:
+                launchHelpActivity();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
     public void onClickDropboxActivity(View view) {
+        launchDropboxActivity();
+    }
+    public void launchDropboxActivity(){
         Intent myIntent = new Intent(MainActivity.this, DropboxActivity.class);
+        MainActivity.this.startActivity(myIntent);
+    }
+    public void launchAboutActivity(){
+        Intent myIntent = new Intent(MainActivity.this, AboutActivity.class);
+        MainActivity.this.startActivity(myIntent);
+    }
+    public void launchHelpActivity(){
+        Intent myIntent = new Intent(MainActivity.this, HelpActivity.class);
         MainActivity.this.startActivity(myIntent);
     }
 
@@ -60,5 +77,10 @@ public class MainActivity extends ActionBarActivity {
 
             getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isFirstRun", false).apply();
         }
+    }
+
+    public void onClickAndroidPlotTest(View view) {
+        Intent myIntent = new Intent(MainActivity.this, AndroidPlotXYActivity.class);
+        MainActivity.this.startActivity(myIntent);
     }
 }

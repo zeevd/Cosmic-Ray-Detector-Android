@@ -24,4 +24,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile files('src/main/java/seniordesign/cosmicraydetector/dropbox-sync-sdk-android.jar')
     compile files('libs/dropbox-sync-sdk-android.jar')
+    compile files('libs/androidplot-core-0.6.1.jar')
 }

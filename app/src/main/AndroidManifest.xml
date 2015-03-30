@@ -23,8 +23,24 @@
         </activity>
 
         <activity
-            android:name=".DropboxActivity"
-            android:label="@string/dropbox_activity_name" >
+            android:name=".AboutActivity"
+            android:label="About The Application">
+        </activity>
+
+        <activity
+            android:name=".HelpActivity"
+            android:label="Help">
+        </activity>
+
+
+        <activity
+            android:name=".androidplot.AndroidPlotXYActivity"
+            android:label="Android Plot Sample XY">
+        </activity>
+
+        <activity
+            android:name=".dropbox.DropboxActivity"
+            android:label="@string/activity_dropbox" >
         </activity>
 
         <activity android:name="com.dropbox.sync.android.DbxAuthActivity" />

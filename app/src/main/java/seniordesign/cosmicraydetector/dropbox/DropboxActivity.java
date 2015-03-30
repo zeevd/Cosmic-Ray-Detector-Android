@@ -1,12 +1,16 @@
-package seniordesign.cosmicraydetector;
+package seniordesign.cosmicraydetector.dropbox;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,11 +22,14 @@ import com.dropbox.sync.android.DbxPath;
 
 import java.io.IOException;
 
+import seniordesign.cosmicraydetector.R;
+
 public class DropboxActivity extends ActionBarActivity {
     private DbxAccountManager mDbxAcctMgr;
     private DbxFileSystem dbxFs;
 
     private TextView linkStatus;
+    private Button buttonLinkDropbox;
     final static int dropboxRequestCode=0;
 
     @Override
@@ -33,11 +40,42 @@ public class DropboxActivity extends ActionBarActivity {
         updateLinkStatus();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_dropbox, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.action_dropbox_account_info) {
+            String info;
+            if (!isLinked()) info = "Dropbox account not linked";
+            else{
+                info = mDbxAcctMgr.getLinkedAccount().getAccountInfo().displayName+"\n"
+                        +mDbxAcctMgr.getLinkedAccount().toString();
+            }
+            new AlertDialog.Builder(this)
+                    .setTitle("Dropbox Information")
+                    .setMessage(info)
+                    .show();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     public void init(){
         //Init account manager
         mDbxAcctMgr = DbxAccountManager.getInstance(getApplicationContext(), "ogamnznpp7actyg", "98jkkfgplqciq9l");
         //Init View components
         linkStatus = (TextView) findViewById(R.id.textview_link_status);
+        buttonLinkDropbox = (Button) findViewById(R.id.button_link_dropbox);
     }
 
     public boolean isLinked(){
@@ -46,12 +84,14 @@ public class DropboxActivity extends ActionBarActivity {
 
     private void updateLinkStatus(){
         if (isLinked()){
-            linkStatus.setText("Linked account: " + mDbxAcctMgr.getLinkedAccount().getAccountInfo().userName);
+            linkStatus.setText("Linked account: " + mDbxAcctMgr.getLinkedAccount().getAccountInfo().displayName);
             linkStatus.setTextColor(Color.GREEN);
+            buttonLinkDropbox.setVisibility(View.INVISIBLE);
         }
         else{
             linkStatus.setText("Not Linked");
             linkStatus.setTextColor(Color.RED);
+            buttonLinkDropbox.setVisibility(View.VISIBLE);
         }
     }
 

@@ -1,10 +1,9 @@
 <resources>
     <string name="app_name">Cosmic Ray Detector</string>
-    <string name="dropbox_activity_name">Dropbox Settings</string>
-    <string name="sensor_paramter_activity_name">Sensor Values</string>
+    <string name="activity_dropbox">Dropbox Settings</string>
 
+    <string name="action_dropbox_settings">Dropbox Settings</string>
 
-    <string name="action_settings">Settings</string>
     <string name="textview_link_status_title">Dropbox account status</string>
     <string name="button_dropbox_settings">Dropbox Settings</string>
     <string name="button_link_dropbox">Link Dropbox Account</string>
