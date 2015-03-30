@@ -10,7 +10,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +33,7 @@ public class DropboxActivity extends ActionBarActivity {
 
     private TextView linkStatus;
     private Button buttonLinkDropbox;
+    private Button buttonDisplayContent;
     final static int dropboxRequestCode=0;
 
     @Override
@@ -76,6 +80,7 @@ public class DropboxActivity extends ActionBarActivity {
         //Init View components
         linkStatus = (TextView) findViewById(R.id.textview_link_status);
         buttonLinkDropbox = (Button) findViewById(R.id.button_link_dropbox);
+        buttonDisplayContent = (Button) findViewById(R.id.button_show_raw_file_content);
     }
 
     public boolean isLinked(){
@@ -87,11 +92,13 @@ public class DropboxActivity extends ActionBarActivity {
             linkStatus.setText("Linked account: " + mDbxAcctMgr.getLinkedAccount().getAccountInfo().displayName);
             linkStatus.setTextColor(Color.GREEN);
             buttonLinkDropbox.setVisibility(View.INVISIBLE);
+            buttonDisplayContent.setVisibility(View.VISIBLE);
         }
         else{
             linkStatus.setText("Not Linked");
             linkStatus.setTextColor(Color.RED);
             buttonLinkDropbox.setVisibility(View.VISIBLE);
+            buttonDisplayContent.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -121,22 +128,38 @@ public class DropboxActivity extends ActionBarActivity {
         }
     }
 
-//    private void tempReadContent() {
-//        try {
-//            dbxFs = DbxFileSystem.forAccount(mDbxAcctMgr.getLinkedAccount());
-//            DbxPath path = new DbxPath("/System.txt");
-//            DbxFile testFile = dbxFs.open(path);
-//            String contents = testFile.readString();
-//            Log.d("Dropbox Test", "File contents: " + contents);
-//
-//        } catch (DbxException.Unauthorized unauthorized) {
-//            unauthorized.printStackTrace();
-//        } catch (DbxException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            // testFile.close();
-//        }
-//    }
+    public void onClickShowFileContent(View view) {
+        String[] contents = tempReadContent().split("\n");
+
+        ListView listView = (ListView) findViewById(R.id.listView);
+        ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,contents);
+        listView.setAdapter(adapter);
+
+
+    }
+
+    //TODO: REMOVE
+    private String tempReadContent() {
+        try {
+            dbxFs = DbxFileSystem.forAccount(mDbxAcctMgr.getLinkedAccount());
+        } catch (DbxException.Unauthorized unauthorized) {
+            unauthorized.printStackTrace();
+        }
+        DbxPath path = new DbxPath("/System.txt");
+        DbxFile testFile = null;
+        try {
+            testFile = dbxFs.open(path);
+        } catch (DbxException e) {
+            e.printStackTrace();
+        }
+        String contents = null;
+        try {
+            contents = testFile.readString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Log.d("Dropbox Test", "File contents: " + contents);
+        testFile.close();
+        return contents;
+    }
 }

@@ -6,7 +6,7 @@
 
     <string name="textview_link_status_title">Dropbox account status</string>
     <string name="button_dropbox_settings">Dropbox Settings</string>
-    <string name="button_link_dropbox">Link Dropbox Account</string>
+    <string name="button_link_dropbox">Link Dropbox</string>
     <string name="button_refresh_link_status">Refresh</string>
 
 
