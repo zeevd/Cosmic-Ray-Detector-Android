@@ -105,6 +105,7 @@ public class DropboxActivity extends ActionBarActivity {
 
     public void onClickRefreshLinkStatus(View view) {
         updateLinkStatus();
+        Toast.makeText(this,"Dropbox status refreshed", Toast.LENGTH_SHORT).show();
     }
 
     public void onClickLinkDropbox(View view) {
@@ -115,12 +116,10 @@ public class DropboxActivity extends ActionBarActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == dropboxRequestCode) {
             if (resultCode == Activity.RESULT_OK) {
-                Toast t = Toast.makeText(this, "Dropbox account linked successfully", Toast.LENGTH_LONG);
-                t.show();
+                Toast.makeText(this, "Dropbox account linked successfully", Toast.LENGTH_LONG).show();
                 updateLinkStatus();
             } else {
-                Toast t = Toast.makeText(this, "Failed to link Dropbox account", Toast.LENGTH_LONG);
-                t.show();
+                Toast.makeText(this, "Failed to link Dropbox account", Toast.LENGTH_LONG).show();
                 updateLinkStatus();
               }
         } else {
@@ -134,7 +133,6 @@ public class DropboxActivity extends ActionBarActivity {
         ListView listView = (ListView) findViewById(R.id.listView);
         ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,contents);
         listView.setAdapter(adapter);
-
 
     }
 
