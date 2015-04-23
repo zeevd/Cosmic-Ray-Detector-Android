@@ -1,15 +1,24 @@
 package seniordesign.cosmicraydetector;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
 
 import seniordesign.cosmicraydetector.androidplot.AndroidPlotXYActivity;
 import seniordesign.cosmicraydetector.dropbox.DropboxActivity;
+
+import static java.lang.Thread.sleep;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -19,7 +28,8 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        checkFirstRun();
+        runStartupActivities();
+
     }
 
     @Override
@@ -63,7 +73,7 @@ public class MainActivity extends ActionBarActivity {
         MainActivity.this.startActivity(myIntent);
     }
 
-    public void checkFirstRun() {
+    public void runStartupActivities() {
         boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
         if (isFirstRun){
             new AlertDialog.Builder(this)
@@ -76,6 +86,39 @@ public class MainActivity extends ActionBarActivity {
                     .show();
 
             getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isFirstRun", false).apply();
+        }
+        else{
+            //Show loading dialog
+            final ProgressDialog progress = new ProgressDialog(this);
+            progress.setTitle("Loading");
+            progress.setMessage("Loading data from the cloud...");
+            progress.show();
+
+            final Handler handler = new Handler();
+            new AsyncTask<Void, Void, Void>() {
+
+                @Override
+                protected Void doInBackground(Void... params) {
+                    //Do some stuff while loading screen showing
+                    try {
+                        sleep(7000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+
+                @Override
+                public void onPostExecute(Void result){
+                    handler.post(new Runnable(){
+                        @Override
+                        public void run(){
+                            //When done loading, dismiss loading screen
+                            progress.dismiss();
+                        }
+                    });
+                }
+            }.execute();
         }
     }
 
