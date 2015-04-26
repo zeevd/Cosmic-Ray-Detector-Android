@@ -34,8 +34,13 @@
 
 
         <activity
-            android:name=".androidplot.AndroidPlotXYActivity"
-            android:label="Android Plot Sample XY">
+            android:name=".androidplot.CountVsTimeActivity"
+            android:label="Cosmic Ray Count vs. Time">
+        </activity>
+
+        <activity
+            android:name=".androidplot.CountVsPressureActivity"
+            android:label="Cosmic Ray Count vs. Pressure">
         </activity>
 
         <activity

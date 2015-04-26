@@ -31,7 +31,7 @@ import seniordesign.cosmicraydetector.R;
 /**
  * Created by zeevd_000 on 3/29/2015.
  */
-public class AndroidPlotXYActivity extends ActionBarActivity {
+public class CountVsTimeActivity extends ActionBarActivity {
     ///LOGGING TAG///
     private static final String TAG = "AndroidPlotXYActivity";
 
@@ -91,7 +91,7 @@ public class AndroidPlotXYActivity extends ActionBarActivity {
         mySimpleXYPlot.addSeries(series2, series2Format);
 
         // draw a domain tick for each year:
-        mySimpleXYPlot.setDomainStep(XYStepMode.SUBDIVIDE, time.size()/10);
+        mySimpleXYPlot.setDomainStep(XYStepMode.INCREMENT_BY_PIXELS, time.size());
 
         // customize our domain/range labels
         mySimpleXYPlot.setDomainLabel("Time");

@@ -21,12 +21,12 @@ import com.dropbox.sync.android.DbxFileSystem;
 import com.dropbox.sync.android.DbxPath;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
 
-import seniordesign.cosmicraydetector.androidplot.AndroidPlotXYActivity;
+import seniordesign.cosmicraydetector.androidplot.CountVsPressureActivity;
+import seniordesign.cosmicraydetector.androidplot.CountVsTimeActivity;
 import seniordesign.cosmicraydetector.dropbox.DropboxActivity;
 
 import static java.lang.Thread.sleep;
@@ -214,10 +214,15 @@ public class MainActivity extends ActionBarActivity {
         MainActivity.this.startActivity(myIntent);
     }
 
-    public void onClickAndroidPlotTest(View view) {
-        Log.i(TAG, "Launching AndroidPlot test page");
-        Intent myIntent = new Intent(MainActivity.this, AndroidPlotXYActivity.class);
+    public void onClickCountvsTime(View view) {
+        Log.i(TAG, "Launching AndroidPlot Count vs. Time");
+        Intent myIntent = new Intent(MainActivity.this, CountVsTimeActivity.class);
         MainActivity.this.startActivity(myIntent);
     }
 
+    public void onClickCountvsPressure(View view) {
+        Log.i(TAG, "Launching AndroidPlot Count vs. Pressure");
+        Intent myIntent = new Intent(MainActivity.this, CountVsPressureActivity.class);
+        MainActivity.this.startActivity(myIntent);
+    }
 }

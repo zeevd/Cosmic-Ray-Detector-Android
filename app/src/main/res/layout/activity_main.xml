@@ -19,13 +19,22 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="AndroidPlot Test"
-        android:id="@+id/button_androidplot_test"
-        android:onClick="onClickAndroidPlotTest"
+        android:text="Count vs. Time"
+        android:id="@+id/button_countvstime"
+        android:onClick="onClickCountvsTime"
         android:layout_below="@+id/button_dropbox_settings"
         android:layout_alignLeft="@+id/button_dropbox_settings"
         android:layout_alignStart="@+id/button_dropbox_settings"
         android:layout_marginTop="44dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Count vs. Pressure"
+        android:id="@+id/button_countvspressure"
+        android:onClick="onClickCountvsPressure"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
     <ImageView
         android:layout_width="120dp"
@@ -46,5 +55,7 @@
         android:layout_alignTop="@+id/imageView"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+
 
 </RelativeLayout>
