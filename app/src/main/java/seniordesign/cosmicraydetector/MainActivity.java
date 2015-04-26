@@ -42,7 +42,7 @@ public class MainActivity extends ActionBarActivity {
 
     ///GLOBAL VARIABLES///
     public static DbxAccountManager mDbxAcctMgr;
-    public static HashMap<String, Day> dayMap = new HashMap<String, Day>();
+    public static HashMap<Number, Day> dayMap = new HashMap<Number, Day>();
     ProgressDialog loadingDialog;
 
 
@@ -136,8 +136,8 @@ public class MainActivity extends ActionBarActivity {
 
                 Log.i(TAG, "Storing file contents in Day object");
                 Day currentDay = new Day(currentFileContents);
-                if (currentDay != null && currentDay.getDate()!=null)
-                    dayMap.put(currentDay.getDate(),currentDay);
+                if (currentDay != null && !currentDay.getDate().isEmpty())
+                    dayMap.put(currentDay.getDate().get(0),currentDay);//TODO: FIND A BETTER KEY
                 else
                     Log.e(TAG, "Failed to store file contents in Day object");
 
