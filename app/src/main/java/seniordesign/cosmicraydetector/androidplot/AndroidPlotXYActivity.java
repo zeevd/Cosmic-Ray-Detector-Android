@@ -3,6 +3,7 @@ package seniordesign.cosmicraydetector.androidplot;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.androidplot.xy.LineAndPointFormatter;
@@ -19,6 +20,8 @@ import seniordesign.cosmicraydetector.R;
  * Created by zeevd_000 on 3/29/2015.
  */
 public class AndroidPlotXYActivity extends ActionBarActivity {
+    ///LOGGING TAG///
+    private static final String TAG = "AndroidPlotXYActivity";
 
     private XYPlot plot;
 
@@ -64,5 +67,12 @@ public class AndroidPlotXYActivity extends ActionBarActivity {
         plot.setTicksPerRangeLabel(3);
         plot.getGraphWidget().setDomainLabelOrientation(-45);
 
+    }
+
+    @Override
+    protected void onStop() {
+        Log.w(TAG, "onStop was called. Terminating applicaiton");
+        super.onStop();
+        finish();
     }
 }

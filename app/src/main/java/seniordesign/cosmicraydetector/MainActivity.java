@@ -216,4 +216,11 @@ public class MainActivity extends ActionBarActivity {
         Intent myIntent = new Intent(MainActivity.this, AndroidPlotXYActivity.class);
         MainActivity.this.startActivity(myIntent);
     }
+
+    @Override
+    protected void onStop() {
+        Log.w(TAG, "onStop was called. Terminating applicaiton");
+        super.onStop();
+        finish();
+    }
 }

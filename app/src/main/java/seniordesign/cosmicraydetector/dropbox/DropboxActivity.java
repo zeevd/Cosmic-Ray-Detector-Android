@@ -29,6 +29,9 @@ import seniordesign.cosmicraydetector.MainActivity;
 import seniordesign.cosmicraydetector.R;
 
 public class DropboxActivity extends ActionBarActivity {
+    ///LOGGING TAG///
+    private static final String TAG = "DropboxActivity";
+
     private DbxAccountManager mDbxAcctMgr;
     private DbxFileSystem dbxFs;
 
@@ -160,5 +163,12 @@ public class DropboxActivity extends ActionBarActivity {
         Log.d("Dropbox Test", "File contents: " + contents);
         testFile.close();
         return contents;
+    }
+
+    @Override
+    protected void onStop() {
+        Log.w(TAG, "onStop was called. Terminating applicaiton");
+        super.onStop();
+        finish();
     }
 }
