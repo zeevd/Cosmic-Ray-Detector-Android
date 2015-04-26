@@ -11,16 +11,12 @@ public class HelpActivity extends ActionBarActivity {
     ///LOGGING TAG///
     private static final String TAG = "HelpActivity";
 
+    //TODO: LOGGING
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
     }
 
-    @Override
-    protected void onStop() {
-        Log.w(TAG, "onStop was called. Terminating applicaiton");
-        super.onStop();
-        finish();
-    }
 }

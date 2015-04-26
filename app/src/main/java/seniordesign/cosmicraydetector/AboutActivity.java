@@ -16,10 +16,6 @@ public class AboutActivity extends ActionBarActivity{
         setContentView(R.layout.activity_about);
     }
 
-    @Override
-    protected void onStop() {
-        Log.w(TAG, "onStop was called. Terminating applicaiton");
-        super.onStop();
-        finish();
-    }
+    //TODO: LOGGING
+
 }

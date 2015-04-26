@@ -23,6 +23,8 @@ public class AndroidPlotXYActivity extends ActionBarActivity {
     ///LOGGING TAG///
     private static final String TAG = "AndroidPlotXYActivity";
 
+    //TODO: LOGGING
+
     private XYPlot plot;
 
     @Override
@@ -69,10 +71,4 @@ public class AndroidPlotXYActivity extends ActionBarActivity {
 
     }
 
-    @Override
-    protected void onStop() {
-        Log.w(TAG, "onStop was called. Terminating applicaiton");
-        super.onStop();
-        finish();
-    }
 }

@@ -40,6 +40,8 @@ public class DropboxActivity extends ActionBarActivity {
     private Button buttonDisplayContent;
     final static int dropboxRequestCode=0;
 
+    //TODO: LOGGING
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,10 +167,4 @@ public class DropboxActivity extends ActionBarActivity {
         return contents;
     }
 
-    @Override
-    protected void onStop() {
-        Log.w(TAG, "onStop was called. Terminating applicaiton");
-        super.onStop();
-        finish();
-    }
 }

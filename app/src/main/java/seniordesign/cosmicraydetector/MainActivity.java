@@ -45,6 +45,7 @@ public class MainActivity extends ActionBarActivity {
     public static HashMap<String, Day> dayMap = new HashMap<String, Day>();
     ProgressDialog loadingDialog;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "Initializing MainActivity.java");
@@ -217,10 +218,4 @@ public class MainActivity extends ActionBarActivity {
         MainActivity.this.startActivity(myIntent);
     }
 
-    @Override
-    protected void onStop() {
-        Log.w(TAG, "onStop was called. Terminating applicaiton");
-        super.onStop();
-        finish();
-    }
 }
