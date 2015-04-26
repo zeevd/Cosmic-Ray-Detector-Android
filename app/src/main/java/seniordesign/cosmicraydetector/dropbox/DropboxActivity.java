@@ -25,6 +25,7 @@ import com.dropbox.sync.android.DbxPath;
 
 import java.io.IOException;
 
+import seniordesign.cosmicraydetector.MainActivity;
 import seniordesign.cosmicraydetector.R;
 
 public class DropboxActivity extends ActionBarActivity {
@@ -76,7 +77,7 @@ public class DropboxActivity extends ActionBarActivity {
 
     public void init(){
         //Init account manager
-        mDbxAcctMgr = DbxAccountManager.getInstance(getApplicationContext(), "ogamnznpp7actyg", "98jkkfgplqciq9l");
+        mDbxAcctMgr = MainActivity.mDbxAcctMgr;
         //Init View components
         linkStatus = (TextView) findViewById(R.id.textview_link_status);
         buttonLinkDropbox = (Button) findViewById(R.id.button_link_dropbox);

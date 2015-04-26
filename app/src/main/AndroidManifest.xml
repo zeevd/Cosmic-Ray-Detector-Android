@@ -43,6 +43,11 @@
             android:label="@string/activity_dropbox" >
         </activity>
 
+        <activity
+            android:name=".BlankActivity"
+            android:label="Blank Activity" >
+        </activity>
+
         <activity android:name="com.dropbox.sync.android.DbxAuthActivity" />
         <activity
             android:name="com.dropbox.client2.android.AuthActivity"
