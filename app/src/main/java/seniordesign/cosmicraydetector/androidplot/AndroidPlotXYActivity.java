@@ -1,15 +1,11 @@
 package seniordesign.cosmicraydetector.androidplot;
 
-import android.app.Activity;
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Shader;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
-import android.view.WindowManager;
 
 import com.androidplot.Plot;
 import com.androidplot.xy.LineAndPointFormatter;
@@ -25,10 +21,10 @@ import java.text.Format;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
+import java.util.Set;
 
-import seniordesign.cosmicraydetector.Day;
+import seniordesign.cosmicraydetector.SensorData;
 import seniordesign.cosmicraydetector.MainActivity;
 import seniordesign.cosmicraydetector.R;
 
@@ -51,10 +47,18 @@ public class AndroidPlotXYActivity extends ActionBarActivity {
 
         mySimpleXYPlot = (XYPlot) findViewById(R.id.mySimpleXYPlot);
 
-        Long l = Long.parseLong("1429632211000");
-        Day sampleDay = MainActivity.dayMap.get(l);
-        ArrayList<Number> rayCount = sampleDay.getCount();
-        ArrayList<Number> time = sampleDay.getDate();
+        ArrayList<Number> rayCount = new ArrayList<Number>();
+        ArrayList<Number> time = new ArrayList<Number>();
+        SensorData sensorData;
+
+        Set<Long> keySet = MainActivity.sensorDataMap.keySet();
+        for (Long key : keySet){
+            sensorData = MainActivity.sensorDataMap.get(key);
+            rayCount.add(sensorData.getCount());
+            time.add(sensorData.getDate().getTime());
+
+        }
+
 
         // create our series from our array of nums:
         XYSeries series2 = new SimpleXYSeries(time,rayCount,"Cosmic ray count");

@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.TreeMap;
 
 import seniordesign.cosmicraydetector.androidplot.AndroidPlotXYActivity;
 import seniordesign.cosmicraydetector.dropbox.DropboxActivity;
@@ -42,7 +43,7 @@ public class MainActivity extends ActionBarActivity {
 
     ///GLOBAL VARIABLES///
     public static DbxAccountManager mDbxAcctMgr;
-    public static HashMap<Number, Day> dayMap = new HashMap<Number, Day>();
+    public static TreeMap<Long, SensorData> sensorDataMap = new TreeMap<Long, SensorData>();
     ProgressDialog loadingDialog;
 
 
@@ -134,12 +135,13 @@ public class MainActivity extends ActionBarActivity {
                 String currentFileContents = currentFile.readString();
                 Log.v(TAG, "File: " + fileInfo.path + " Contents: " + currentFileContents);
 
-                Log.i(TAG, "Storing file contents in Day object");
-                Day currentDay = new Day(currentFileContents);
-                if (currentDay != null && !currentDay.getDate().isEmpty())
-                    dayMap.put(currentDay.getDate().get(0),currentDay);//TODO: FIND A BETTER KEY
-                else
-                    Log.e(TAG, "Failed to store file contents in Day object");
+                Log.i(TAG, "Converting file contents to List of SensorData objects");
+                List<SensorData> currentFileData = SensorData.parseData(currentFileContents);
+
+                for (SensorData data : currentFileData){
+                    Log.v(TAG, "Adding entry to map: " + data.getDate().toString());
+                    sensorDataMap.put(data.getDate().getTime(),data);//Key=unix time, Value=SensorData
+                }
 
             }
             catch (IOException e) {
