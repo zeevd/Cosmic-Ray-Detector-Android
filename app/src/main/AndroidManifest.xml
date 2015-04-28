@@ -32,6 +32,11 @@
             android:label="Help">
         </activity>
 
+        <activity
+            android:name=".GraphActivity"
+            android:label="Graphing">
+        </activity>
+
 
         <activity
             android:name=".androidplot.CountVsTimeActivity"

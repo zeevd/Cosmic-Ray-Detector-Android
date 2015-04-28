@@ -22,6 +22,7 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Set;
 
 import seniordesign.cosmicraydetector.SensorData;
@@ -52,8 +53,10 @@ public class CountVsTimeActivity extends ActionBarActivity {
         SensorData sensorData;
 
         Set<Long> keySet = MainActivity.sensorDataMap.keySet();
-        for (Long key : keySet){
-            sensorData = MainActivity.sensorDataMap.get(key);
+        Iterator<Long> iterator = keySet.iterator();
+
+        while (iterator.hasNext()){
+            sensorData = MainActivity.sensorDataMap.get(iterator.next());
             rayCount.add(sensorData.getCount());
             time.add(sensorData.getDate().getTime());
 

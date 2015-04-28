@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxAccountManager;
@@ -21,6 +23,9 @@ import com.dropbox.sync.android.DbxFileSystem;
 import com.dropbox.sync.android.DbxPath;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
@@ -55,33 +60,31 @@ public class MainActivity extends ActionBarActivity {
 
         boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
 
-        if (isFirstRun){
+        if (isFirstRun) {
             Log.i(TAG, "First run detected");
             getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isFirstRun", false).apply();
             showWelcomeDialog();    //Also initializes Dropbox
-        }
-        else {
+        } else {
             Log.i(TAG, "Not first run detected");
             initDropbox();
         }
+
     }
 
-    public void initDropbox(){
+    public void initDropbox() {
         Log.i(TAG, "Displaying loading dialog");
         loadingDialog = ProgressDialog.show(MainActivity.this, "",
                 "Loading data from the cloud. Please wait...", true);
 
 
         Log.i(TAG, "Getting Dropbox account manager");
-        mDbxAcctMgr = DbxAccountManager.getInstance(getApplicationContext(), APP_KEY , APP_SECRET);
+        mDbxAcctMgr = DbxAccountManager.getInstance(getApplicationContext(), APP_KEY, APP_SECRET);
         if (mDbxAcctMgr.hasLinkedAccount()) {
             Log.i(TAG, "App is already linked to Dropbox");
             Intent myIntent = new Intent(MainActivity.this, BlankActivity.class);
             startActivityForResult(myIntent, DROPBOX_REQUEST_CODE);
             //Execution resumes @ onActivityResult()
-        }
-
-        else {
+        } else {
             Log.i(TAG, "Linking Dropbox via browser");
             mDbxAcctMgr.startLink((Activity) this, DROPBOX_REQUEST_CODE);
             //Execution resumes @ onActivityResult()
@@ -101,13 +104,13 @@ public class MainActivity extends ActionBarActivity {
                     Log.e(TAG, "Failed to access files on Dropbox");
                     e.printStackTrace();
                 }
+
             } else {
                 Log.e(TAG, "Failed to link Dropbox account");
                 Toast.makeText(this, "Failed to link Dropbox account", Toast.LENGTH_LONG).show();
             }
             loadingDialog.dismiss();
-        }
-        else {
+        } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -118,14 +121,14 @@ public class MainActivity extends ActionBarActivity {
         DbxFileSystem dbxFs = DbxFileSystem.forAccount(mDbxAcctMgr.getLinkedAccount());
         List<DbxFileInfo> dropboxFileList = dbxFs.listFolder(DbxPath.ROOT);
 
-        Log.i(TAG,"Files on Dropbox:\n");
+        Log.i(TAG, "Files on Dropbox:\n");
         for (DbxFileInfo info : dropboxFileList) {
-            Log.i(TAG,"    " + info.path + ", " + info.modifiedTime + '\n');
+            Log.i(TAG, "    " + info.path + ", " + info.modifiedTime + '\n');
         }
 
         Log.i(TAG, "Iterating through Dropbox files");
         Iterator<DbxFileInfo> dropboxFileIterator = dropboxFileList.iterator();
-        while (dropboxFileIterator.hasNext()){
+        while (dropboxFileIterator.hasNext()) {
             DbxFileInfo fileInfo = dropboxFileIterator.next();
             if (fileInfo.isFolder) continue;    //Only interested in files, not folders
 
@@ -138,25 +141,23 @@ public class MainActivity extends ActionBarActivity {
                 Log.i(TAG, "Converting file contents to List of SensorData objects");
                 List<SensorData> currentFileData = SensorData.parseData(currentFileContents);
 
-                for (SensorData data : currentFileData){
+                for (SensorData data : currentFileData) {
                     Log.v(TAG, "Adding entry to map: " + data.getDate().toString());
-                    sensorDataMap.put(data.getDate().getTime(),data);//Key=unix time, Value=SensorData
+                    sensorDataMap.put(data.getDate().getTime(), data);//Key=unix time, Value=SensorData
                 }
 
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 Log.e(TAG, "Failed to read file " + currentFile.getPath());
                 e.printStackTrace();
-            }
-            finally {
-                Log.i(TAG,"Closing file " + currentFile.getPath());
+            } finally {
+                Log.i(TAG, "Closing file " + currentFile.getPath());
                 currentFile.close();
             }
         }
         Toast.makeText(this, "Finished loading data from Dropbox", Toast.LENGTH_LONG).show();
     }
 
-    private void showWelcomeDialog(){
+    private void showWelcomeDialog() {
         Log.i(TAG, "Displaying welcome dialog box");
 
         //Listener called after user dismisses the welcome dialog box
@@ -191,9 +192,9 @@ public class MainActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        switch(id){
+        switch (id) {
             case R.id.action_about:
-                Log.i(TAG,"Launching AboutActivity.java");
+                Log.i(TAG, "Launching AboutActivity.java");
                 Intent myIntent = new Intent(MainActivity.this, AboutActivity.class);
                 MainActivity.this.startActivity(myIntent);
                 break;
@@ -207,22 +208,20 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onClickDropboxActivity(View view){
+    public void onClickDropboxActivity(View view) {
         Log.i(TAG, "Launching DropboxActivity.java");
         Intent myIntent = new Intent(MainActivity.this, DropboxActivity.class);
 
         MainActivity.this.startActivity(myIntent);
     }
 
-    public void onClickCountvsTime(View view) {
-        Log.i(TAG, "Launching AndroidPlot Count vs. Time");
-        Intent myIntent = new Intent(MainActivity.this, CountVsTimeActivity.class);
+    public void onClickGraphData(View view) {
+        Log.i(TAG, "Launching GraphActivity.java");
+        Intent myIntent = new Intent(MainActivity.this, GraphActivity.class);
         MainActivity.this.startActivity(myIntent);
     }
 
-    public void onClickCountvsPressure(View view) {
-        Log.i(TAG, "Launching AndroidPlot Count vs. Pressure");
-        Intent myIntent = new Intent(MainActivity.this, CountVsPressureActivity.class);
-        MainActivity.this.startActivity(myIntent);
-    }
 }
+
+
+
