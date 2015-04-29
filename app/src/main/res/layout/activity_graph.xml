@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
+    android:gravity="center_horizontal|fill_vertical">
 
     <LinearLayout
         android:orientation="vertical"
@@ -35,7 +35,7 @@
             <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinner_startmonthday"
+                android:id="@+id/spinner_startmonth"
                 android:layout_weight="1"
                 android:visibility="visible"
                 android:spinnerMode="dialog" />
@@ -43,7 +43,15 @@
             <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinner_starthour"
+                android:id="@+id/spinner_startday"
+                android:layout_weight="1"
+                android:visibility="visible"
+                android:spinnerMode="dialog" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_starttime"
                 android:layout_weight="1"
                 android:visibility="visible"
                 android:spinnerMode="dialog" />
@@ -82,7 +90,7 @@
             <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinner_enddaymonth"
+                android:id="@+id/spinner_endmonth"
                 android:layout_weight="1"
                 android:visibility="visible"
                 android:spinnerMode="dialog" />
@@ -90,7 +98,15 @@
             <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinner_endhour"
+                android:id="@+id/spinner_endday"
+                android:layout_weight="1"
+                android:visibility="visible"
+                android:spinnerMode="dialog" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_endtime"
                 android:layout_weight="1"
                 android:visibility="visible"
                 android:spinnerMode="dialog" />

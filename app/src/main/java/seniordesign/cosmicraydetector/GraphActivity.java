@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,18 +25,62 @@ public class GraphActivity extends ActionBarActivity {
     private static final String TAG = "GraphActivity";
 
     final SimpleDateFormat yearFormatter = new SimpleDateFormat("yyyy");
-    final SimpleDateFormat monthDayFormmatter = new SimpleDateFormat("MM/dd");
-    final SimpleDateFormat hourFormatter = new SimpleDateFormat("hh:mm a");
+    final SimpleDateFormat monthFormmatter = new SimpleDateFormat("MM");
+    final SimpleDateFormat dayFormmatter = new SimpleDateFormat("dd");
+    final SimpleDateFormat timeFormatter = new SimpleDateFormat("hh:mm:ss a");
+
+    Spinner startYearSpinner, startMonthSpinner, startDaySpinner, startTimeSpinner;
+    Spinner endYearSpinner, endMonthSpinner, endDaySpinner, endTimeSpinner;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph);
-        initSpinners();
+
+        startYearSpinner = (Spinner) findViewById(R.id.spinner_startyear);
+        startMonthSpinner = (Spinner) findViewById(R.id.spinner_startmonth);
+        startDaySpinner = (Spinner) findViewById(R.id.spinner_startday);
+        startTimeSpinner = (Spinner) findViewById(R.id.spinner_starttime);
+
+        endYearSpinner = (Spinner) findViewById(R.id.spinner_endyear);
+        endMonthSpinner = (Spinner) findViewById(R.id.spinner_endmonth);
+        endDaySpinner = (Spinner) findViewById(R.id.spinner_endday);
+        endTimeSpinner = (Spinner) findViewById(R.id.spinner_endtime);
+
+        initSpinner(startYearSpinner,yearFormatter);
+        initSpinner(startMonthSpinner,monthFormmatter);
+        initSpinner(startDaySpinner, dayFormmatter);
+        initSpinner(startTimeSpinner, timeFormatter);
+
+        initSpinner(endYearSpinner,yearFormatter);
+        initSpinner(endMonthSpinner,monthFormmatter);
+        initSpinner(endDaySpinner, dayFormmatter);
+        initSpinner(endTimeSpinner, timeFormatter);
 
     }
 
-    private void initSpinners(){
+    private void initSpinner(Spinner spinner, SimpleDateFormat formatter){
+        List<String> spinnerStrings = new ArrayList<String>();
+        Iterator<Long> keysIterator = MainActivity.sensorDataMap.keySet().iterator();
+
+        while (keysIterator.hasNext()){
+            String str = formatter.format(new Date(keysIterator.next()));
+            if (!spinnerStrings.contains(str))
+                spinnerStrings.add(str);
+        }
+
+
+        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,spinnerStrings);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //spinner.setOnItemSelectedListener(new SpinnerListener());
+
+        spinner.setAdapter(adapter);
+
+    }
+
+
+    /*private void initSpinners(){
         //TODO: MODULARIZE and implement dependencies
 
         Spinner startYearSpinner = (Spinner) findViewById(R.id.spinner_startyear);
@@ -104,7 +150,7 @@ public class GraphActivity extends ActionBarActivity {
         //HOURS
 
     }
-
+*/
     public void onClickCountvsTime(View view) {
         Log.i(TAG, "Launching AndroidPlot Count vs. Time");
         Intent myIntent = new Intent(GraphActivity.this, CountVsTimeActivity.class);
@@ -117,5 +163,6 @@ public class GraphActivity extends ActionBarActivity {
         Intent myIntent = new Intent(GraphActivity.this, CountVsPressureActivity.class);
         GraphActivity.this.startActivity(myIntent);
     }
+
 }
 
