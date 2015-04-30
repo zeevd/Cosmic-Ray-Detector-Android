@@ -16,6 +16,9 @@ import java.util.List;
 
 import seniordesign.cosmicraydetector.androidplot.CountVsPressureActivity;
 import seniordesign.cosmicraydetector.androidplot.CountVsTimeActivity;
+import seniordesign.cosmicraydetector.graphview.GraphViewActivity;
+import seniordesign.cosmicraydetector.hellocharts.HelloChartActivity;
+import seniordesign.cosmicraydetector.mpandroidchart.MPAChartActivity;
 
 
 public class GraphActivity extends ActionBarActivity {
@@ -25,6 +28,10 @@ public class GraphActivity extends ActionBarActivity {
     final SimpleDateFormat yearFormatter = new SimpleDateFormat("yyyy");
     final SimpleDateFormat monthDayFormmatter = new SimpleDateFormat("MM/dd");
     final SimpleDateFormat hourFormatter = new SimpleDateFormat("hh:mm a");
+
+    //GLOBAL VARIABLES///
+    public static String xType;
+    public static String yType ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +114,7 @@ public class GraphActivity extends ActionBarActivity {
 
     public void onClickCountvsTime(View view) {
         Log.i(TAG, "Launching AndroidPlot Count vs. Time");
+       // Intent myIntent = new Intent(GraphActivity.this, CountVsTimeActivity.class);
         Intent myIntent = new Intent(GraphActivity.this, CountVsTimeActivity.class);
         GraphActivity.this.startActivity(myIntent);
     }
@@ -116,6 +124,26 @@ public class GraphActivity extends ActionBarActivity {
         Log.i(TAG, "Launching AndroidPlot Count vs. Pressure");
         Intent myIntent = new Intent(GraphActivity.this, CountVsPressureActivity.class);
         GraphActivity.this.startActivity(myIntent);
+    }
+
+    public void onClickGraphView(View View){
+        Log.i(TAG, "Launching GraphView");
+        Intent myIntent = new Intent(GraphActivity.this, GraphViewActivity.class);
+        GraphActivity.this.startActivity(myIntent);
+    }
+
+    public void onClickMPAChart(View View){
+        Log.i(TAG, "Launching MPAChart");
+        Intent myIntent = new Intent(GraphActivity.this, MPAChartActivity.class);
+        GraphActivity.this.startActivity(myIntent);
+
+    }
+
+    public void onClickHelloChart(View View){
+        Log.i(TAG, "Launching HelloChart");
+        Intent myIntent = new Intent(GraphActivity.this, HelloChartActivity.class);
+        GraphActivity.this.startActivity(myIntent);
+
     }
 }
 

@@ -114,4 +114,29 @@
         android:layout_below="@+id/button_countvstime"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Generate Graph via GraphView"
+        android:onClick="onClickGraphView"
+        android:id="@+id/button"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Generate Graph via MPAChart"
+        android:onClick="onClickMPAChart"
+        android:id="@+id/button2"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Generate Graph via HelloChart"
+        android:onClick="onClickHelloChart"
+        android:id="@+id/button3"
+        android:layout_gravity="center_horizontal" />
+
+
 </LinearLayout>

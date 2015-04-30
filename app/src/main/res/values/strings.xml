@@ -8,6 +8,12 @@
     <string name="button_dropbox_settings">Dropbox Settings</string>
     <string name="button_link_dropbox">Link Dropbox</string>
     <string name="button_refresh_link_status">Refresh</string>
+    <string name="title_activity_graph_view">GraphViewActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_mpachart">MPAChartActivity</string>
+    <string name="title_activity_hello_chart">HelloChartActivity</string>
 
 
 
