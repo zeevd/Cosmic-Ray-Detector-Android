@@ -29,7 +29,8 @@ import seniordesign.cosmicraydetector.SensorData;
 
 public class HelloChartActivity extends ActionBarActivity {
 
-
+    ///LOGGING TAG///
+    private static final String TAG = "HelloChartActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +47,7 @@ public class HelloChartActivity extends ActionBarActivity {
         List<PointValue> values = new ArrayList<PointValue>();
 
         //Graph Generation
-
         float xValue, yValue;
-
         /*
         * TODO: Add retrieval of specified range of SensorData
         */
@@ -76,18 +75,17 @@ public class HelloChartActivity extends ActionBarActivity {
                 xValue = sensorData.getCount().floatValue();
             }
 
-
             //get Y based on type
-            if(xType.equalsIgnoreCase("temperature")){
+            if(yType.equalsIgnoreCase("temperature")){
                 yValue = sensorData.getTemperature().floatValue();
             }
-            else if(xType.equalsIgnoreCase("pressure")){
+            else if(yType.equalsIgnoreCase("pressure")){
                 yValue = sensorData.getPressure().floatValue();
             }
-            else if(xType.equalsIgnoreCase("date")){
+            else if(yType.equalsIgnoreCase("date")){
                 yValue = new Long(sensorData.getDate().getTime()).floatValue();
             }
-            else if(xType.equalsIgnoreCase("humidity")){
+            else if(yType.equalsIgnoreCase("humidity")){
                 yValue = sensorData.getHumidity().floatValue();
             }
             else{//count
@@ -99,32 +97,7 @@ public class HelloChartActivity extends ActionBarActivity {
             //Create point and add to list
             PointValue point = new PointValue(xValue,yValue);
             values.add(point);
-
-
         }// end of for loop
-
-
-        /*
-        Set<Long> keySet = MainActivity.sensorDataMap.keySet();
-        for (Long key : keySet){
-            sensorData = MainActivity.sensorDataMap.get(key);
-            values.add(new PointValue(sensorData.getPressure().floatValue(),
-                    sensorData.getCount().floatValue()));
-        }
-
-        */
-       /* for (Long key : keySet){
-            sensorData = MainActivity.sensorDataMap.get(key);
-            PointValue point = new PointValue(new Long(sensorData.getDate().getTime()).floatValue(),
-                    sensorData.getCount().floatValue());
-
-            point.setTarget(point.getX(),point.getY());
-            point.set(point.getX(),0f);
-
-            values.add(point);
-
-        }*/
-
 
         Line line = new Line(values).setColor(Color.BLUE).setCubic(false);
         List<Line> lines = new ArrayList<Line>(1);
@@ -142,7 +115,6 @@ public class HelloChartActivity extends ActionBarActivity {
 
         Axis xAxis = new Axis().setHasLines(true);
         Axis yAxis = new Axis().setHasLines(true);
-
 
         //X AXIS SETUP
         String xAxisLabel, yAxisLabel;

@@ -10,11 +10,17 @@
     <string name="button_refresh_link_status">Refresh</string>
     <string name="title_activity_graph_view">GraphViewActivity</string>
 
-    <string name="hello_world">Hello world!</string>
+
     <string name="action_settings">Settings</string>
     <string name="title_activity_mpachart">MPAChartActivity</string>
     <string name="title_activity_hello_chart">HelloChartActivity</string>
-
+    <string name="choose_x_axis">Choose X-Axis</string>
+    <string name="count_string">Count</string>
+    <string name="date_string">Date</string>
+    <string name="pressure_string">Pressure</string>
+    <string name="temperature_string">Temperature</string>
+    <string name="choose_y_axis">Choose Y-Axis</string>
+    <string name="humidity_string">Humidity</string>
 
 
 </resources>

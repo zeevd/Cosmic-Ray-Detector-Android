@@ -6,7 +6,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,8 +32,8 @@ public class GraphActivity extends ActionBarActivity {
     final SimpleDateFormat hourFormatter = new SimpleDateFormat("hh:mm a");
 
     //GLOBAL VARIABLES///
-    public static String xType;
-    public static String yType ;
+    public static String xType = "";
+    public static String yType = "" ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,17 +135,111 @@ public class GraphActivity extends ActionBarActivity {
     }
 
     public void onClickMPAChart(View View){
-        Log.i(TAG, "Launching MPAChart");
-        Intent myIntent = new Intent(GraphActivity.this, MPAChartActivity.class);
-        GraphActivity.this.startActivity(myIntent);
+
+        if(xType.equals("") || yType.equals("")){
+            Toast.makeText(this, "Please Select X and Y Axis Values", Toast.LENGTH_LONG).show();
+        }
+        else {
+            Log.i(TAG, "Launching MPAChart");
+            Intent myIntent = new Intent(GraphActivity.this, MPAChartActivity.class);
+            GraphActivity.this.startActivity(myIntent);
+        }
 
     }
 
     public void onClickHelloChart(View View){
-        Log.i(TAG, "Launching HelloChart");
-        Intent myIntent = new Intent(GraphActivity.this, HelloChartActivity.class);
-        GraphActivity.this.startActivity(myIntent);
+        if(xType.equals("") || yType.equals("")){
+            Toast.makeText(this, "Please Select X and Y Axis Values", Toast.LENGTH_LONG).show();
+        }
+        else {
+            Log.i(TAG, "Launching HelloChart");
+            Intent myIntent = new Intent(GraphActivity.this, HelloChartActivity.class);
+            GraphActivity.this.startActivity(myIntent);
+        }
 
+    }
+
+    public void onXRadioGroupClicked(View view) {
+        Log.i(TAG,"X_RADIO_GROUP CLICKED");
+
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.x_date:
+                if (checked) {
+                    xType = "Date";
+                    Log.i(TAG, "Set XTYPE to Date, xType is" + xType);
+                }
+                    break;
+            case R.id.x_count:
+                if (checked){
+                    xType = "Count";
+                    Log.i(TAG, "Set XTYPE to Count, xType is" + xType);
+                }
+                    break;
+            case R.id.x_temp:
+                if (checked) {
+                    xType = "Temperature";
+                    Log.i(TAG, "Set XTYPE to Temperature, xType is" + xType);
+                }
+                    break;
+            case R.id.x_pres:
+                if (checked){
+                    xType = "Pressure";
+                    Log.i(TAG, "Set XTYPE to Pressure, xType is" + xType);
+                }
+                    break;
+            case R.id.x_humd:
+                if (checked){
+                    xType = "Humidity";
+                    Log.i(TAG, "Set XTYPE to Humidity, xType is" + xType);
+                }
+                break;
+        }
+    }
+
+    public void onYRadioGroupClicked(View view) {
+        Log.i(TAG,"Y_RADIO_GROUP CLICKED");
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.y_date:
+                if (checked) {
+                    yType = "Date";
+                    Log.i(TAG, "Set YTYPE to Date, yType is" + yType);
+                }
+                break;
+            case R.id.y_count:
+                if (checked){
+                    yType = "Count";
+                    Log.i(TAG, "Set YTYPE to Count, yType is" + yType);
+                }
+                break;
+            case R.id.y_temp:
+                if (checked) {
+                    yType = "Temperature";
+                    Log.i(TAG, "Set YTYPE to Temperature, yType is" + yType);
+                }
+                break;
+            case R.id.y_pres:
+                if (checked){
+                    yType = "Pressure";
+                    Log.i(TAG, "Set YTYPE to Pressure, yType is" + yType);
+                }
+                break;
+            case R.id.y_humd:
+                if (checked){
+                    yType = "Humidity";
+                    Log.i(TAG, "Set YTYPE to Humidity, yType is" + yType);
+                }
+                break;
+        }
     }
 }
 
