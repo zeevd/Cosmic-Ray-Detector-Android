@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -28,90 +30,137 @@ public class GraphActivity extends ActionBarActivity {
     private static final String TAG = "GraphActivity";
 
     final SimpleDateFormat yearFormatter = new SimpleDateFormat("yyyy");
-    final SimpleDateFormat monthDayFormmatter = new SimpleDateFormat("MM/dd");
-    final SimpleDateFormat hourFormatter = new SimpleDateFormat("hh:mm a");
+    final SimpleDateFormat monthFormatter = new SimpleDateFormat("MM");
+    final SimpleDateFormat dayFormmatter = new SimpleDateFormat("dd");
 
     //GLOBAL VARIABLES///
     public static String xType = "";
     public static String yType = "" ;
 
+    private Spinner startYearSpinner,startMonthSpinner,startDaySpinner;
+    private Spinner endYearSpinner,endMonthSpinner,endDaySpinner;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph);
-        initSpinners();
 
+        startYearSpinner = (Spinner) findViewById(R.id.spinner_startyear);
+        startMonthSpinner = (Spinner) findViewById(R.id.spinner_startmonth);
+        startDaySpinner = (Spinner) findViewById(R.id.spinner_startday);
+
+        endYearSpinner = (Spinner) findViewById(R.id.spinner_endyear);
+        endMonthSpinner = (Spinner) findViewById(R.id.spinner_endmonth);
+        endDaySpinner = (Spinner) findViewById(R.id.spinner_endday);
+
+        boolean start = true;
+        initYearSpinner(start);
+        initYearSpinner(!start);
     }
 
-    private void initSpinners(){
-        //TODO: MODULARIZE and implement dependencies
+    public void initYearSpinner(final boolean isStart) {
+        Spinner yearSpinner;
+        if (isStart) yearSpinner = startYearSpinner;
+        else yearSpinner = endYearSpinner;
 
-        Spinner startYearSpinner = (Spinner) findViewById(R.id.spinner_startyear);
-        Spinner startMonthDaySpinner = (Spinner) findViewById(R.id.spinner_startmonthday);
-        Spinner startHourSpinner = (Spinner) findViewById(R.id.spinner_starthour);
-        Spinner endYearSpinner = (Spinner) findViewById(R.id.spinner_endyear);
-        Spinner endMonthDaySpinner = (Spinner) findViewById(R.id.spinner_enddaymonth);
-        Spinner endHourSpinner = (Spinner) findViewById(R.id.spinner_endhour);
+        List<String> spinnerVals = new ArrayList<String>();
+        Iterator<Long> keysIterator = MainActivity.sensorDataMap.keySet().iterator();
+        Date currentTimestamp;
 
-
-        List<String> yearsList = new ArrayList<String>();
-        List<String> monthsDaysList = new ArrayList<String>();
-        List<String> hoursList = new ArrayList<String>();
-
-        //Long[] keys = MainActivity.sensorDataMap.keySet().toArray(new Long[MainActivity.sensorDataMap.size()]);
-        Iterator<Long> keysIterator;
-        //TODO: INJECT DEPENDENCIES YEAR -> MONTH/DAY -> HOUR
-
-        //YEARS
-        //for (int i=0; i<keys.length; i++) {
-        keysIterator = MainActivity.sensorDataMap.keySet().iterator();
         while (keysIterator.hasNext()){
-            String dayAsString = yearFormatter.format(new Date(keysIterator.next()));
-            if (!yearsList.contains(dayAsString))
-                yearsList.add(dayAsString);
+            currentTimestamp = new Date(keysIterator.next());
+            String currentYear = yearFormatter.format(currentTimestamp);
+            if (!spinnerVals.contains(currentYear))
+                spinnerVals.add(currentYear);
         }
-        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,yearsList);
+        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,spinnerVals);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        startYearSpinner.setAdapter(adapter);
-        endYearSpinner.setAdapter(adapter);
-        //YEARS
+        yearSpinner.setAdapter(adapter);
+        yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                initMonthSpinner(isStart);
+            }
 
-        //MONTHS+DAYS
-        //for (int i=0; i<keys.length; i++) {
-        keysIterator = MainActivity.sensorDataMap.keySet().iterator();
-        while (keysIterator.hasNext()){
-            Date currentTimestamp = new Date(keysIterator.next());
-            //if current timestamp has incorrect year, continue
-            //else
-            String dayAsString = monthDayFormmatter.format(currentTimestamp);
-            if (!monthsDaysList.contains(dayAsString))
-                monthsDaysList.add(dayAsString);
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    public void initMonthSpinner(final boolean isStart){
+        Spinner monthSpinner; String yearString;
+        if (isStart){
+            monthSpinner = startMonthSpinner;
+            yearString = startYearSpinner.getSelectedItem().toString();
+        }
+        else{
+            monthSpinner = endMonthSpinner;
+            yearString = endYearSpinner.getSelectedItem().toString();
         }
 
-        adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,monthsDaysList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        startMonthDaySpinner.setAdapter(adapter);
-        endMonthDaySpinner.setAdapter(adapter);
-        //MONTHS+DAYS
+        List<String> spinnerVals = new ArrayList<String>();
+        Iterator<Long> keysIterator = MainActivity.sensorDataMap.keySet().iterator();
+        Date currentTimestamp;
 
-        //HOURS
-        //for (int i=0; i<keys.length; i++) {
-        keysIterator = MainActivity.sensorDataMap.keySet().iterator();
         while (keysIterator.hasNext()){
-            Date currentTimestamp = new Date(keysIterator.next());
-            //if we're on the wrong day, continue
-            //else
-            String dayAsString = hourFormatter.format(currentTimestamp);
-            if (!hoursList.contains(dayAsString))   //TODO: remove to improve performance?
-                hoursList.add(dayAsString);
+            currentTimestamp = new Date(keysIterator.next());
+            String currentYear = yearFormatter.format(currentTimestamp);
+            if (!currentYear.equals(yearString)) continue;
+
+            else {
+                String currentMonth = monthFormatter.format(currentTimestamp);
+                if (!spinnerVals.contains(currentMonth))
+                    spinnerVals.add(currentMonth);
+            }
+        }
+        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,spinnerVals);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        monthSpinner.setAdapter(adapter);
+        monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                initDaySpinner(isStart);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    public void initDaySpinner(final boolean isStart){
+        Spinner daySpinner; String monthString;
+        if (isStart){
+            daySpinner = startDaySpinner;
+            monthString = startMonthSpinner.getSelectedItem().toString();
+        }
+        else{
+            daySpinner = endDaySpinner;
+            monthString = endMonthSpinner.getSelectedItem().toString();
         }
 
-        adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,hoursList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        startHourSpinner.setAdapter(adapter);
-        endHourSpinner.setAdapter(adapter);
-        //HOURS
+        List<String> spinnerVals = new ArrayList<String>();
+        Iterator<Long> keysIterator = MainActivity.sensorDataMap.keySet().iterator();
+        Date currentTimestamp;
 
+        while (keysIterator.hasNext()){
+            currentTimestamp = new Date(keysIterator.next());
+            String currentMonth = monthFormatter.format(currentTimestamp);
+            if (!currentMonth.equals(monthString)) continue;
+
+            else {
+                String currentDay = dayFormmatter.format(currentTimestamp);
+                if (!spinnerVals.contains(currentDay))
+                    spinnerVals.add(currentDay);
+            }
+        }
+        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,spinnerVals);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        daySpinner.setAdapter(adapter);
     }
 
     public void onClickCountvsTime(View view) {
@@ -161,10 +210,8 @@ public class GraphActivity extends ActionBarActivity {
 
     public void onXRadioGroupClicked(View view) {
         Log.i(TAG,"X_RADIO_GROUP CLICKED");
-
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
-
 
         // Check which radio button was clicked
         switch(view.getId()) {
