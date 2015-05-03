@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -18,6 +19,9 @@ import java.util.List;
 
 import seniordesign.cosmicraydetector.androidplot.CountVsPressureActivity;
 import seniordesign.cosmicraydetector.androidplot.CountVsTimeActivity;
+import seniordesign.cosmicraydetector.graphview.GraphViewActivity;
+import seniordesign.cosmicraydetector.hellocharts.HelloChartActivity;
+import seniordesign.cosmicraydetector.mpandroidchart.MPAChartActivity;
 
 
 public class GraphActivity extends ActionBarActivity {
@@ -32,6 +36,10 @@ public class GraphActivity extends ActionBarActivity {
     Spinner startYearSpinner, startMonthSpinner, startDaySpinner, startTimeSpinner;
     Spinner endYearSpinner, endMonthSpinner, endDaySpinner, endTimeSpinner;
 
+
+    //GLOBAL VARIABLES///
+    public static String xType = "";
+    public static String yType = "" ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,6 +161,7 @@ public class GraphActivity extends ActionBarActivity {
 */
     public void onClickCountvsTime(View view) {
         Log.i(TAG, "Launching AndroidPlot Count vs. Time");
+       // Intent myIntent = new Intent(GraphActivity.this, CountVsTimeActivity.class);
         Intent myIntent = new Intent(GraphActivity.this, CountVsTimeActivity.class);
         GraphActivity.this.startActivity(myIntent);
     }
