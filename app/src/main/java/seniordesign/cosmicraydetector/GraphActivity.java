@@ -277,6 +277,5 @@ public class GraphActivity extends ActionBarActivity {
                 break;
         }
     }
-
 }
 
