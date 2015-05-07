@@ -12,40 +12,46 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".AboutActivity"
-            android:label="About The Application" >
+            android:label="About The Application"
+            android:screenOrientation="landscape">
         </activity>
         <activity
             android:name=".HelpActivity"
-            android:label="Help" >
+            android:label="Help"
+            android:screenOrientation="landscape">
         </activity>
         <activity
             android:name=".GraphActivity"
-            android:label="Graphing" >
+            android:label="Graphing"
+            android:screenOrientation="landscape">
         </activity>
         <activity
             android:name=".androidplot.CountVsTimeActivity"
-            android:label="Cosmic Ray Count vs. Time" >
+            android:label="Cosmic Ray Count vs. Time"
+            android:screenOrientation="landscape">
         </activity>
         <activity
             android:name=".androidplot.CountVsPressureActivity"
-            android:label="Cosmic Ray Count vs. Pressure" >
+            android:label="Cosmic Ray Count vs. Pressure"
+            android:screenOrientation="landscape">
         </activity>
         <activity
             android:name=".dropbox.DropboxActivity"
-            android:label="@string/activity_dropbox" >
+            android:label="@string/activity_dropbox"
+            android:screenOrientation="landscape">
         </activity>
         <activity
             android:name=".BlankActivity"
-            android:label="Blank Activity" >
+            android:label="Blank Activity">
         </activity>
         <activity android:name="com.dropbox.sync.android.DbxAuthActivity" />
         <activity
@@ -69,15 +75,18 @@
 
         <activity
             android:name=".graphview.GraphViewActivity"
-            android:label="@string/title_activity_graph_view" >
+            android:label="@string/title_activity_graph_view"
+            android:screenOrientation="landscape">
         </activity>
         <activity
             android:name=".mpandroidchart.MPAChartActivity"
-            android:label="@string/title_activity_mpachart" >
+            android:label="@string/title_activity_mpachart"
+            android:screenOrientation="landscape">
         </activity>
         <activity
             android:name=".hellocharts.HelloChartActivity"
-            android:label="@string/title_activity_hello_chart" >
+            android:label="@string/title_activity_hello_chart"
+            android:screenOrientation="landscape">
         </activity>
     </application>
 

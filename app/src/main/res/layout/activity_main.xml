@@ -14,8 +14,7 @@
         android:id="@+id/button_dropbox_settings"
         android:onClick="onClickDropboxActivity"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="93dp" />
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -25,13 +24,11 @@
         android:onClick="onClickGraphData"
         android:layout_centerVertical="true"
         android:layout_alignLeft="@+id/button_dropbox_settings"
-        android:layout_alignStart="@+id/button_dropbox_settings"
-        android:layout_alignRight="@+id/button_dropbox_settings"
-        android:layout_alignEnd="@+id/button_dropbox_settings" />
+        android:layout_alignStart="@+id/button_dropbox_settings" />
 
     <ImageView
-        android:layout_width="120dp"
-        android:layout_height="50dp"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
         android:id="@+id/imageView"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
@@ -40,8 +37,8 @@
         android:layout_weight="1" />
 
     <ImageView
-        android:layout_width="120dp"
-        android:layout_height="50dp"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
         android:id="@+id/imageView2"
         android:src="@drawable/bnl"
         android:layout_weight="1"
