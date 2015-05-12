@@ -300,95 +300,128 @@ public class GraphActivity extends ActionBarActivity {
     }
 
     public void onXRadioGroupClicked(View view) {
-        Log.i(TAG,"X_RADIO_GROUP CLICKED");
-        // Is the button now checked?
-        radioGroup = (RadioGroup) findViewById(R.id.x_group);
-       // boolean checked = ((RadioGroup) view)isChecked();
 
-        // Check which radio button was clicked
-        //switch(view.getId()) {
+        //Enable All Buttons for the  Y-Radio Group
+        radioGroup = (RadioGroup) findViewById(R.id.y_group);
+        ((RadioButton) radioGroup.findViewById(R.id.y_date)).setEnabled(true);
+        ((RadioButton) radioGroup.findViewById(R.id.y_count)).setEnabled(true);
+        ((RadioButton) radioGroup.findViewById(R.id.y_temp)).setEnabled(true);
+        ((RadioButton) radioGroup.findViewById(R.id.y_pres)).setEnabled(true);
+        ((RadioButton) radioGroup.findViewById(R.id.y_humd)).setEnabled(true);
+
+        //Get X-RadioButton Group
+        Log.i(TAG,"X_RADIO_GROUP CLICKED");
+        radioGroup = (RadioGroup) findViewById(R.id.x_group);
+
+        //Find which radioButton within the group was pressed
         switch(radioGroup.getCheckedRadioButtonId()) {
             case R.id.x_date:
-                //if (checked) {
                 if(((RadioButton) radioGroup.findViewById(R.id.x_date)).isChecked()){
                     xType = "Date";
                     Log.i(TAG, "Set XTYPE to Date, xType is" + xType);
+                    //disable the y-pair
+                    radioGroup = (RadioGroup) findViewById(R.id.y_group);
+                    ((RadioButton) radioGroup.findViewById(R.id.y_date)).setEnabled(false);
                 }
                     break;
             case R.id.x_count:
-                //if (checked){
                 if(((RadioButton) radioGroup.findViewById(R.id.x_count)).isChecked()){
                     xType = "Count";
                     Log.i(TAG, "Set XTYPE to Count, xType is" + xType);
+                    //disable the y-pair
+                    radioGroup = (RadioGroup) findViewById(R.id.y_group);
+                    ((RadioButton) radioGroup.findViewById(R.id.y_count)).setEnabled(false);
                 }
                     break;
             case R.id.x_temp:
-                //if (checked) {
                 if(((RadioButton) radioGroup.findViewById(R.id.x_temp)).isChecked()){
                     xType = "Temperature";
                     Log.i(TAG, "Set XTYPE to Temperature, xType is" + xType);
+                    //disable the y-pair
+                    radioGroup = (RadioGroup) findViewById(R.id.y_group);
+                    ((RadioButton) radioGroup.findViewById(R.id.y_temp)).setEnabled(false);
                 }
                     break;
             case R.id.x_pres:
-                //if (checked){
                 if(((RadioButton) radioGroup.findViewById(R.id.x_pres)).isChecked()){
                     xType = "Pressure";
                     Log.i(TAG, "Set XTYPE to Pressure, xType is" + xType);
+                    //disable the y-pair
+                    radioGroup = (RadioGroup) findViewById(R.id.y_group);
+                    ((RadioButton) radioGroup.findViewById(R.id.y_pres)).setEnabled(false);
                 }
                     break;
             case R.id.x_humd:
-               // if (checked){
                 if(((RadioButton) radioGroup.findViewById(R.id.x_humd)).isChecked()){
                     xType = "Humidity";
                     Log.i(TAG, "Set XTYPE to Humidity, xType is" + xType);
+                    //disable the y-pair
+                    radioGroup = (RadioGroup) findViewById(R.id.y_group);
+                    ((RadioButton) radioGroup.findViewById(R.id.y_humd)).setEnabled(false);
                 }
                 break;
         }
     }
 
     public void onYRadioGroupClicked(View view) {
+
+        //Enable All Buttons for the  X-Radio Group
+        radioGroup = (RadioGroup) findViewById(R.id.x_group);
+        ((RadioButton) radioGroup.findViewById(R.id.x_date)).setEnabled(true);
+        ((RadioButton) radioGroup.findViewById(R.id.x_count)).setEnabled(true);
+        ((RadioButton) radioGroup.findViewById(R.id.x_temp)).setEnabled(true);
+        ((RadioButton) radioGroup.findViewById(R.id.x_pres)).setEnabled(true);
+        ((RadioButton) radioGroup.findViewById(R.id.x_humd)).setEnabled(true);
+
+        //Get Y-RadioButton Group
         Log.i(TAG,"Y_RADIO_GROUP CLICKED");
-        // Is the button now checked?
         radioGroup = (RadioGroup) findViewById(R.id.y_group);
-        //boolean checked = ((RadioButton) view).isChecked();
 
-
-        // Check which radio button was clicked
-        //switch(view.getId()) {
+        //Find which radioButton within the group was pressed
         switch(radioGroup.getCheckedRadioButtonId()) {
             case R.id.y_date:
-                //if (checked) {
                 if(((RadioButton) radioGroup.findViewById(R.id.y_date)).isChecked()){
                     yType = "Date";
                     Log.i(TAG, "Set YTYPE to Date, yType is" + yType);
+                    //disable the x-pair
+                    radioGroup = (RadioGroup) findViewById(R.id.x_group);
+                    ((RadioButton) radioGroup.findViewById(R.id.x_date)).setEnabled(false);
                 }
                 break;
             case R.id.y_count:
-                //if (checked){
                 if(((RadioButton) radioGroup.findViewById(R.id.y_count)).isChecked()){
                     yType = "Count";
                     Log.i(TAG, "Set YTYPE to Count, yType is" + yType);
+                    //disable the x-pair
+                    radioGroup = (RadioGroup) findViewById(R.id.x_group);
+                    ((RadioButton) radioGroup.findViewById(R.id.x_count)).setEnabled(false);
                 }
                 break;
             case R.id.y_temp:
-                //if (checked) {
                 if(((RadioButton) radioGroup.findViewById(R.id.y_temp)).isChecked()){
                     yType = "Temperature";
                     Log.i(TAG, "Set YTYPE to Temperature, yType is" + yType);
+                    //disable the x-pair
+                    radioGroup = (RadioGroup) findViewById(R.id.x_group);
+                    ((RadioButton) radioGroup.findViewById(R.id.x_temp)).setEnabled(false);
                 }
                 break;
             case R.id.y_pres:
-                //if (checked){
                 if(((RadioButton) radioGroup.findViewById(R.id.y_pres)).isChecked()){
                     yType = "Pressure";
                     Log.i(TAG, "Set YTYPE to Pressure, yType is" + yType);
+                    //disable the x-pair
+                    radioGroup = (RadioGroup) findViewById(R.id.x_group);
+                    ((RadioButton) radioGroup.findViewById(R.id.x_pres)).setEnabled(false);
                 }
                 break;
             case R.id.y_humd:
-                //if (checked){
                 if(((RadioButton) radioGroup.findViewById(R.id.y_humd)).isChecked()){
                     yType = "Humidity";
                     Log.i(TAG, "Set YTYPE to Humidity, yType is" + yType);
+                    //disable the x-pair
+                    radioGroup = (RadioGroup) findViewById(R.id.x_group);
+                    ((RadioButton) radioGroup.findViewById(R.id.x_humd)).setEnabled(false);
                 }
                 break;
         }
