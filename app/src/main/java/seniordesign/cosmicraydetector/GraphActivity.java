@@ -19,12 +19,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import seniordesign.cosmicraydetector.androidplot.CountVsPressureActivity;
-import seniordesign.cosmicraydetector.androidplot.CountVsTimeActivity;
-import seniordesign.cosmicraydetector.graphview.GraphViewActivity;
 import seniordesign.cosmicraydetector.hellocharts.HelloChartActivity;
-import seniordesign.cosmicraydetector.mpandroidchart.MPAChartActivity;
-
 
 public class GraphActivity extends ActionBarActivity {
     ///LOGGING TAG///
@@ -254,38 +249,6 @@ public class GraphActivity extends ActionBarActivity {
     };
 
 
-    public void onClickCountvsTime(View view) {
-        Log.i(TAG, "Launching AndroidPlot Count vs. Time");
-       // Intent myIntent = new Intent(GraphActivity.this, CountVsTimeActivity.class);
-        Intent myIntent = new Intent(GraphActivity.this, CountVsTimeActivity.class);
-        GraphActivity.this.startActivity(myIntent);
-    }
-
-
-    public void onClickCountvsPressure(View view) {
-        Log.i(TAG, "Launching AndroidPlot Count vs. Pressure");
-        Intent myIntent = new Intent(GraphActivity.this, CountVsPressureActivity.class);
-        GraphActivity.this.startActivity(myIntent);
-    }
-
-    public void onClickGraphView(View View){
-        Log.i(TAG, "Launching GraphView");
-        Intent myIntent = new Intent(GraphActivity.this, GraphViewActivity.class);
-        GraphActivity.this.startActivity(myIntent);
-    }
-
-    public void onClickMPAChart(View View){
-
-        if(xType.equals("") || yType.equals("")){
-            Toast.makeText(this, "Please Select X and Y Axis Values", Toast.LENGTH_LONG).show();
-        }
-        else {
-            Log.i(TAG, "Launching MPAChart");
-            Intent myIntent = new Intent(GraphActivity.this, MPAChartActivity.class);
-            GraphActivity.this.startActivity(myIntent);
-        }
-
-    }
 
     public void onClickHelloChart(View View){
         if(xType.equals("") || yType.equals("")){
