@@ -21,6 +21,9 @@
     <string name="temperature_string">Temperature</string>
     <string name="choose_y_axis">Choose Y-Axis</string>
     <string name="humidity_string">Humidity</string>
+    <string name="graph_string">Generate Graph</string>
+    <string name="select_time">Select End Time</string>
+    <string name="select_start">Select start time</string>
 
 
 </resources>

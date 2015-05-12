@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
+    compileSdkVersion 21
     buildToolsVersion "21.1.2"
     defaultConfig {
         applicationId "seniordesign.cosmicraydetector"
-        minSdkVersion 14
+        minSdkVersion 11
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -25,8 +25,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile files('src/main/java/seniordesign/cosmicraydetector/dropbox-sync-sdk-android.jar')
     compile files('libs/dropbox-sync-sdk-android.jar')
-    compile files('libs/androidplot-core-0.6.1.jar')
-    compile 'com.jjoe64:graphview:4.0.0'
-    compile files('libs/mpandroidchartlibrary-2-0-9.jar')
     compile files('libs/hellocharts-library-1.5.3.jar')
 }

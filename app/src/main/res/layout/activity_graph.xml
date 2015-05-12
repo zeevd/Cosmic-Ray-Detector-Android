@@ -7,20 +7,22 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Select start time"
+                android:text="@string/select_start"
                 android:id="@+id/textView11"
                 android:layout_weight="0.00"
                 android:layout_gravity="center_horizontal" />
@@ -29,25 +31,27 @@
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal" >
+                android:layout_gravity="center_horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
 
                 <Spinner
-                    android:layout_width="100dp"
-                    android:layout_height="80dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:id="@+id/spinner_startyear"
                     android:visibility="visible"
                     android:spinnerMode="dialog" />
 
                 <Spinner
-                    android:layout_width="75dp"
-                    android:layout_height="80dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:id="@+id/spinner_startmonth"
                     android:visibility="visible"
                     android:spinnerMode="dialog" />
 
                 <Spinner
-                    android:layout_width="75dp"
-                    android:layout_height="80dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:id="@+id/spinner_startday"
                     android:visibility="visible"
                     android:spinnerMode="dialog" />
@@ -57,17 +61,18 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/button_countvspressure" >
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Select end time"
+                android:text="@string/select_time"
                 android:id="@+id/textView12"
                 android:layout_weight="0.00"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:longClickable="false"
+                android:linksClickable="false" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -76,22 +81,22 @@
                 android:layout_gravity="center_horizontal" >
 
                 <Spinner
-                    android:layout_width="100dp"
-                    android:layout_height="80dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:id="@+id/spinner_endyear"
                     android:visibility="visible"
                     android:spinnerMode="dialog" />
 
                 <Spinner
-                    android:layout_width="75dp"
-                    android:layout_height="80dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:id="@+id/spinner_endmonth"
                     android:visibility="visible"
                     android:spinnerMode="dialog" />
 
                 <Spinner
-                    android:layout_width="75dp"
-                    android:layout_height="80dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:id="@+id/spinner_endday"
                     android:visibility="visible"
                     android:spinnerMode="dialog" />
@@ -101,80 +106,27 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Graph via HelloChart"
-            android:onClick="onClickHelloChart"
-            android:id="@+id/button"
-            android:layout_gravity="center_horizontal"
-            android:layout_row="0"
-            android:layout_column="0" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Count vs. Pressure"
-            android:onClick="onClickCountvsPressure"
-            android:layout_below="@+id/button_countvstime"
-            android:layout_centerHorizontal="true"
-            android:layout_row="0"
-            android:layout_column="1"
-            android:id="@+id/button" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Graph via MPAChart"
-            android:onClick="onClickMPAChart"
-            android:id="@+id/button"
-            android:layout_gravity="center_horizontal"
-            android:layout_row="1"
-            android:layout_column="0" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Count vs. Time"
-            android:onClick="onClickCountvsTime"
-            android:layout_below="@+id/button_dropbox_settings"
-            android:layout_alignLeft="@+id/button_countvspressure"
-            android:layout_alignStart="@+id/button_countvspressure"
-            android:layout_gravity="center_horizontal"
-            android:layout_row="1"
-            android:layout_column="1"
-            android:id="@+id/button" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="30dp">
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/choose_y_axis"
-                android:id="@+id/textView13"
-                android:layout_row="0"
-                android:layout_column="2" />
+                android:id="@+id/textView13" />
 
             <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:layout_row="1"
-                android:layout_column="2"
                 android:id="@+id/y_group"
                 android:onClick="onYRadioGroupClicked" >
 
@@ -220,7 +172,8 @@
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="30dp">
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -232,8 +185,6 @@
             <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:layout_row="1"
-                android:layout_column="0"
                 android:id="@+id/x_group"
                 android:onClick="onXRadioGroupClicked"
                 android:clickable="false">
@@ -277,6 +228,20 @@
             </RadioGroup>
         </LinearLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/graph_string"
+            android:onClick="onClickHelloChart"
+            android:id="@+id/Hellobutton"
+            android:layout_gravity="center_horizontal" />
     </LinearLayout>
 
 
