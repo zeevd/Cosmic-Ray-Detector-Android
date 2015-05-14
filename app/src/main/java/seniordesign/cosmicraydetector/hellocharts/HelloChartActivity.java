@@ -8,13 +8,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import lecho.lib.hellocharts.formatter.SimpleLineChartValueFormatter;
 import lecho.lib.hellocharts.gesture.ZoomType;
 import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
@@ -51,6 +53,11 @@ public class HelloChartActivity extends ActionBarActivity {
         /*
         * TODO: Add retrieval of specified range of SensorData
         */
+        //List of Axis Labels
+        List<AxisValue> xAxisValue = new ArrayList<>();
+        List<AxisValue> yAxisValue = new ArrayList<>();
+
+
         SensorData sensorData;
         Set<Long> keySet = MainActivity.sensorDataMap.keySet();
 
@@ -67,6 +74,11 @@ public class HelloChartActivity extends ActionBarActivity {
             }
             else if(xType.equalsIgnoreCase("date")){
                 xValue = new Long(sensorData.getDate().getTime()).floatValue();
+                AxisValue xLabel = new AxisValue(xValue);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+                String dateLabel = dateFormat.format(sensorData.getDate());
+                xLabel.setLabel(dateLabel);
+                xAxisValue.add(xLabel);
             }
             else if(xType.equalsIgnoreCase("humidity")){
                 xValue = sensorData.getHumidity().floatValue();
@@ -84,6 +96,11 @@ public class HelloChartActivity extends ActionBarActivity {
             }
             else if(yType.equalsIgnoreCase("date")){
                 yValue = new Long(sensorData.getDate().getTime()).floatValue();
+                AxisValue yLabel = new AxisValue(yValue);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+                String dateLabel = dateFormat.format(sensorData.getDate());
+                yLabel.setLabel(dateLabel);
+                yAxisValue.add(yLabel);
             }
             else if(yType.equalsIgnoreCase("humidity")){
                 yValue = sensorData.getHumidity().floatValue();
@@ -94,6 +111,7 @@ public class HelloChartActivity extends ActionBarActivity {
 
             //TODO: Add Label Generating for dates, and may append units
 
+
             //Create point and add to list
             PointValue point = new PointValue(xValue,yValue);
             values.add(point);
@@ -103,18 +121,31 @@ public class HelloChartActivity extends ActionBarActivity {
         List<Line> lines = new ArrayList<Line>(1);
 
         //Initial Line Setup
+        line.setPointRadius(3);
+        line.setStrokeWidth(2);
         line.setShape(ValueShape.CIRCLE);
         line.setHasLabelsOnlyForSelected(true);
         line.setHasPoints(true);
         line.setHasLines(true);
+        if(xType.equalsIgnoreCase("pressure")){
+            line.setFormatter(new SimpleLineChartValueFormatter(1));
+        }
 
         lines.add(line);
+
 
         LineChartData data = new LineChartData();
         data.setLines(lines);
 
         Axis xAxis = new Axis().setHasLines(true);
         Axis yAxis = new Axis().setHasLines(true);
+
+        if(xType.equalsIgnoreCase("Date")){
+            xAxis = new Axis(xAxisValue).setHasLines(true);
+        }
+        if(yType.equalsIgnoreCase("Date")){
+            yAxis = new Axis(yAxisValue).setHasLines(true);
+        }
 
         //X AXIS SETUP
         String xAxisLabel, yAxisLabel;
@@ -162,11 +193,28 @@ public class HelloChartActivity extends ActionBarActivity {
         data.setAxisYLeft(yAxis);
         data.setBaseValue(Float.NEGATIVE_INFINITY);
 
+        if(yType.equalsIgnoreCase("temperature")){
+            data.setBaseValue(0);
+        }
+        else if(yType.equalsIgnoreCase("pressure")){
+            data.setBaseValue(0);;
+        }
+        else if(yType.equalsIgnoreCase("date")){
+            data.setBaseValue(Float.NEGATIVE_INFINITY);
+        }
+        else if(yType.equalsIgnoreCase("humidity")){
+            data.setBaseValue(0);
+        }
+        else{// count
+            data.setBaseValue(Float.NEGATIVE_INFINITY);
+        }
+
+
         //Get ChartView
         LineChartView chart = (LineChartView) findViewById(R.id.chart);
         chart.setLineChartData(data);
         //Default zoom will be scrolling left to right only
-        chart.setZoomType(ZoomType.HORIZONTAL);
+        //chart.setZoomType(ZoomType.HORIZONTAL);
 
         //chart.startDataAnimation();
 
