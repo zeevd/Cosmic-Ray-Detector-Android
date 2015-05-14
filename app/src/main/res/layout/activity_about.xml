@@ -10,7 +10,7 @@
     >
 
 
-    <TextView
+    <com.cengalabs.flatui.views.FlatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Faculty"
@@ -39,7 +39,7 @@
                 android:background="@drawable/helio"
                 android:id="@+id/imageButton" />
 
-            <TextView
+            <com.cengalabs.flatui.views.FlatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Dr. Helio Takai"
@@ -60,7 +60,7 @@
                 android:background="@drawable/monica"
                 android:id="@+id/imageButton2" />
 
-            <TextView
+            <com.cengalabs.flatui.views.FlatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Dr. Monica\nBugallo"
@@ -69,7 +69,7 @@
 
     </LinearLayout>
 
-    <TextView
+    <com.cengalabs.flatui.views.FlatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Developers"
@@ -98,7 +98,7 @@
                 android:background="@drawable/saket"
                 android:id="@+id/imageButton3" />
 
-            <TextView
+            <com.cengalabs.flatui.views.FlatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Saket Ati"
@@ -120,7 +120,7 @@
                 android:background="@drawable/zeev"
                 android:id="@+id/imageButton4" />
 
-            <TextView
+            <com.cengalabs.flatui.views.FlatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Zeev Douek"
@@ -142,7 +142,7 @@
                 android:background="@drawable/tochukwu"
                 android:id="@+id/imageButton5" />
 
-            <TextView
+            <com.cengalabs.flatui.views.FlatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tochukwu\nAkujuo"

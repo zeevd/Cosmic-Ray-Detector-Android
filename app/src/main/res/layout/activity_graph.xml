@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:flatui="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:weightSum="1">
@@ -9,23 +11,28 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_weight="1">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp">
+            android:paddingRight="10dp"
+            android:layout_weight="1"
+            android:gravity="center">
 
-            <TextView
+            <com.cengalabs.flatui.views.FlatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/select_start"
                 android:id="@+id/textView11"
-                android:layout_weight="0.00"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_weight="1" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -33,138 +40,162 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp">
+                android:paddingRight="10dp"
+                android:layout_weight="1">
 
                 <Spinner
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/spinner_startyear"
                     android:visibility="visible"
-                    android:spinnerMode="dialog" />
+                    android:spinnerMode="dialog"
+                    android:layout_weight="1" />
 
                 <Spinner
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/spinner_startmonth"
                     android:visibility="visible"
-                    android:spinnerMode="dialog" />
+                    android:spinnerMode="dialog"
+                    android:layout_weight="1" />
 
                 <Spinner
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/spinner_startday"
                     android:visibility="visible"
-                    android:spinnerMode="dialog" />
+                    android:spinnerMode="dialog"
+                    android:layout_weight="1" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
 
-            <TextView
+            <com.cengalabs.flatui.views.FlatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/select_time"
                 android:id="@+id/textView12"
-                android:layout_weight="0.00"
                 android:layout_gravity="center_horizontal"
                 android:longClickable="false"
-                android:linksClickable="false" />
+                android:linksClickable="false"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_weight="1" />
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal" >
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1">
 
                 <Spinner
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/spinner_endyear"
                     android:visibility="visible"
-                    android:spinnerMode="dialog" />
+                    android:spinnerMode="dialog"
+                    android:layout_weight="1" />
 
                 <Spinner
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/spinner_endmonth"
                     android:visibility="visible"
-                    android:spinnerMode="dialog" />
+                    android:spinnerMode="dialog"
+                    android:layout_weight="1" />
 
                 <Spinner
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/spinner_endday"
                     android:visibility="visible"
-                    android:spinnerMode="dialog" />
+                    android:spinnerMode="dialog"
+                    android:layout_weight="1" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_weight="1">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="30dp"
-            android:paddingRight="30dp">
+            android:paddingRight="30dp"
+            android:layout_weight="1"
+            android:gravity="center">
 
-            <TextView
+            <com.cengalabs.flatui.views.FlatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/choose_y_axis"
-                android:id="@+id/textView13" />
+                android:id="@+id/textView13"
+                android:layout_weight="1" />
 
             <RadioGroup
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:id="@+id/y_group"
-                android:onClick="onYRadioGroupClicked" >
+                android:onClick="onYRadioGroupClicked"
+                android:layout_gravity="center"
+                android:layout_weight="1">
 
-                <RadioButton
+                <com.cengalabs.flatui.views.FlatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/date_string"
                     android:id="@+id/y_date"
-                    android:onClick="onYRadioGroupClicked" />
+                    android:onClick="onYRadioGroupClicked"
+                    flatui:fl_textColor="fl_darker"
+                    android:layout_weight="1" />
 
-                <RadioButton
+                <com.cengalabs.flatui.views.FlatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/count_string"
                     android:id="@+id/y_count"
-                    android:onClick="onYRadioGroupClicked" />
+                    android:onClick="onYRadioGroupClicked"
+                    android:layout_weight="1" />
 
-                <RadioButton
+                <com.cengalabs.flatui.views.FlatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/temperature_string"
                     android:id="@+id/y_temp"
-                    android:onClick="onYRadioGroupClicked" />
+                    android:onClick="onYRadioGroupClicked"
+                    android:layout_weight="1" />
 
-                <RadioButton
+                <com.cengalabs.flatui.views.FlatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/pressure_string"
                     android:id="@+id/y_pres"
-                    android:onClick="onYRadioGroupClicked" />
+                    android:onClick="onYRadioGroupClicked"
+                    android:layout_weight="1" />
 
-                <RadioButton
+                <com.cengalabs.flatui.views.FlatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/humidity_string"
                     android:id="@+id/y_humd"
                     android:checked="false"
-                    android:onClick="onYRadioGroupClicked" />
+                    android:onClick="onYRadioGroupClicked"
+                    android:layout_weight="1" />
             </RadioGroup>
         </LinearLayout>
 
@@ -173,57 +204,67 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="30dp"
-            android:paddingRight="30dp">
+            android:paddingRight="30dp"
+            android:gravity="center"
+            android:layout_weight="1">
 
-            <TextView
+            <com.cengalabs.flatui.views.FlatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/choose_x_axis"
-                android:id="@+id/textView10" />
+                android:id="@+id/textView10"
+                android:layout_weight="1" />
 
             <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:id="@+id/x_group"
                 android:onClick="onXRadioGroupClicked"
-                android:clickable="false">
+                android:clickable="false"
+                android:layout_gravity="center"
+                android:layout_weight="1">
 
-                <RadioButton
+                <com.cengalabs.flatui.views.FlatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/date_string"
                     android:id="@+id/x_date"
-                    android:onClick="onXRadioGroupClicked" />
+                    android:onClick="onXRadioGroupClicked"
+                    android:layout_weight="1" />
 
-                <RadioButton
+                <com.cengalabs.flatui.views.FlatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/count_string"
                     android:id="@+id/x_count"
-                    android:onClick="onXRadioGroupClicked" />
+                    android:onClick="onXRadioGroupClicked"
+                    android:layout_weight="1" />
 
-                <RadioButton
+                <com.cengalabs.flatui.views.FlatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/temperature_string"
                     android:id="@+id/x_temp"
-                    android:onClick="onXRadioGroupClicked" />
+                    android:onClick="onXRadioGroupClicked"
+                    android:layout_weight="1" />
 
-                <RadioButton
+                <com.cengalabs.flatui.views.FlatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/pressure_string"
                     android:id="@+id/x_pres"
-                    android:onClick="onXRadioGroupClicked" />
+                    android:onClick="onXRadioGroupClicked"
+                    android:layout_weight="1" />
 
-                <RadioButton
+                <com.cengalabs.flatui.views.FlatRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/humidity_string"
                     android:id="@+id/x_humd"
                     android:checked="false"
-                    android:onClick="onXRadioGroupClicked" />
+                    android:onClick="onXRadioGroupClicked"
+                    android:layout_weight="1" />
 
             </RadioGroup>
         </LinearLayout>
@@ -233,15 +274,18 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center">
 
-        <Button
+        <com.cengalabs.flatui.views.FlatButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/graph_string"
             android:onClick="onClickHelloChart"
             android:id="@+id/Hellobutton"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1" />
     </LinearLayout>
 
 

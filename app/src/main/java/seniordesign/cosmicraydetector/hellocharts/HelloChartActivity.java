@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 
+import com.cengalabs.flatui.FlatUI;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +51,14 @@ public class HelloChartActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "Initializing HelloChartActivity.java");
         super.onCreate(savedInstanceState);
+
+        Log.i(TAG, "Init FlatUI");
+        FlatUI.initDefaultValues(this);
+        FlatUI.setDefaultTheme(FlatUI.BLOOD);
         setContentView(R.layout.activity_hello_chart);
+        getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(this, FlatUI.BLOOD, false, 2));
 
 
         // Get X and Y types to know what values to graph

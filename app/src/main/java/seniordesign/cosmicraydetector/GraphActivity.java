@@ -12,6 +12,8 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.cengalabs.flatui.FlatUI;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,8 +59,14 @@ public class GraphActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "Initializing GraphActivity.java");
         super.onCreate(savedInstanceState);
+
+        Log.i(TAG, "Init FlatUI");
+        FlatUI.initDefaultValues(this);
+        FlatUI.setDefaultTheme(FlatUI.BLOOD);
         setContentView(R.layout.activity_graph);
+        getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(this, FlatUI.BLOOD, false, 2));
 
         startYearSpinner = (Spinner) findViewById(R.id.spinner_startyear);
         startMonthSpinner = (Spinner) findViewById(R.id.spinner_startmonth);

@@ -26,4 +26,5 @@ dependencies {
     compile files('src/main/java/seniordesign/cosmicraydetector/dropbox-sync-sdk-android.jar')
     compile files('libs/dropbox-sync-sdk-android.jar')
     compile files('libs/hellocharts-library-1.5.3.jar')
+    compile 'com.github.eluleci:flatui:3.0.0'
 }

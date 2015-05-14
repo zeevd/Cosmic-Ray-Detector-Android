@@ -11,18 +11,18 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_margin="5dp">
 
-        <TextView
+        <com.cengalabs.flatui.views.FlatTextView
             android:id="@+id/textview_dropbox_status_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/textview_link_status_title"
             android:textSize="18sp"
             android:layout_alignParentStart="true"
-            android:layout_margin="10dp" />
+            android:layout_margin="7dp" />
 
-        <TextView
+        <com.cengalabs.flatui.views.FlatTextView
                 android:id="@+id/textview_dropbox_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -31,25 +31,25 @@
                 android:hint="Dropbox link status"
                 android:layout_alignTop="@+id/textview_dropbox_status_title"
                 android:layout_centerHorizontal="true"
-            android:layout_margin="10dp" />
+            android:layout_margin="7dp" />
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_margin="5dp">
 
-        <TextView
+        <com.cengalabs.flatui.views.FlatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Linked Account:"
             android:id="@+id/textview_linked_account_title"
             android:textSize="18sp"
-            android:layout_margin="10dp" />
+            android:layout_margin="7dp" />
 
-        <TextView
+        <com.cengalabs.flatui.views.FlatTextView
             android:id="@+id/textview_linked_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,29 +58,29 @@
             android:layout_alignParentTop="true"
             android:layout_alignRight="@+id/textview_dropbox_status_title"
             android:layout_alignEnd="@+id/textview_dropbox_status_title"
-            android:layout_margin="10dp" />
+            android:layout_margin="7dp" />
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_margin="20dp">
+        android:layout_margin="5dp">
 
-        <Button
-                android:id="@+id/button_refresh_link_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/button_refresh_link_status"
-                android:onClick="onClickRefreshLinkStatus"
-                android:layout_gravity="center_horizontal"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
+        <com.cengalabs.flatui.views.FlatButton
+            android:id="@+id/button_refresh_link_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_refresh_link_status"
+            android:onClick="onClickRefreshLinkStatus"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_margin="5dp"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
-        <Button
+        <com.cengalabs.flatui.views.FlatButton
             android:id="@+id/button_link_dropbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_margin="5dp"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
     </LinearLayout>
 
 </LinearLayout>

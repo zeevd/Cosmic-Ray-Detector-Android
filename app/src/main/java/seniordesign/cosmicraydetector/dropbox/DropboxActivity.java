@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cengalabs.flatui.FlatUI;
 import com.dropbox.sync.android.DbxAccountManager;
 
 import seniordesign.cosmicraydetector.MainActivity;
@@ -33,8 +35,16 @@ public class DropboxActivity extends ActionBarActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "Initializing DropboxActivity.java");
         super.onCreate(savedInstanceState);
+
+        Log.i(TAG, "Init FlatUI");
+        FlatUI.initDefaultValues(this);
+        FlatUI.setDefaultTheme(FlatUI.BLOOD);
         setContentView(R.layout.activity_dropbox);
+        getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(this, FlatUI.BLOOD, false, 2));
+
+
         init();
         updateLinkStatus();
     }

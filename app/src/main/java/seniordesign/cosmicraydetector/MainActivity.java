@@ -13,6 +13,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.cengalabs.flatui.FlatUI;
+import com.cengalabs.flatui.TouchEffectAnimator;
+import com.cengalabs.flatui.views.FlatButton;
 import com.dropbox.sync.android.DbxAccountManager;
 import com.dropbox.sync.android.DbxException;
 import com.dropbox.sync.android.DbxFile;
@@ -48,8 +51,8 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "Initializing MainActivity.java");
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
 
@@ -61,6 +64,14 @@ public class MainActivity extends ActionBarActivity {
             Log.i(TAG, "Not first run detected");
             initDropbox();
         }
+
+        Log.i(TAG, "Init FlatUI");
+        FlatUI.initDefaultValues(this);
+        FlatUI.setDefaultTheme(FlatUI.BLOOD);
+        setContentView(R.layout.activity_main);
+        getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(this, FlatUI.BLOOD, false, 2));
+
+
 
     }
 
