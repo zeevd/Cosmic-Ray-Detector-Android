@@ -16,8 +16,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.TreeMap;
 
 import seniordesign.cosmicraydetector.hellocharts.HelloChartActivity;
 
@@ -40,6 +42,18 @@ public class GraphActivity extends ActionBarActivity {
 
     private RadioGroup radioGroup;
     private RadioButton buttonClicked;
+
+    //Data structure-related
+    TreeMap<Long,SensorData> sensorDataMap = MainActivity.sensorDataMap;
+    ArrayList<Long> sensorDataList = MainActivity.sensorDataList;
+
+    HashMap<String,Integer> startYearsIndices = new HashMap<String,Integer>();
+    HashMap<String,Integer> startMonthsIndices = new HashMap<String,Integer>();
+
+    HashMap<String,Integer> endYearsIndices = new HashMap<String,Integer>();
+    HashMap<String,Integer> endMonthsIndices = new HashMap<String,Integer>();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +82,7 @@ public class GraphActivity extends ActionBarActivity {
 
     public Iterator<Long> getEndIterator() {
         List<String> spinnerVals = new ArrayList<String>();
-        Iterator<Long> keysIterator = MainActivity.sensorDataMap.keySet().iterator();
+        Iterator<Long> keysIterator = sensorDataMap.keySet().iterator();
         Date currentTimestamp;
         while (keysIterator.hasNext()) {
             Long currentEpoch = keysIterator.next();
@@ -79,13 +93,14 @@ public class GraphActivity extends ActionBarActivity {
 
     private List<String> getStartYears(){
         List<String> spinnerVals = new ArrayList<String>();
-        Iterator<Long> keysIterator = MainActivity.sensorDataMap.keySet().iterator();
         Date currentTimestamp;
-        while (keysIterator.hasNext()){
-            currentTimestamp = new Date(keysIterator.next());
+        for (int i=0; i<sensorDataList.size(); i++){
+            currentTimestamp = new Date(sensorDataList.get(i));
             String currentYear = yearFormatter.format(currentTimestamp);
-            if (!spinnerVals.contains(currentYear))
+            if (!spinnerVals.contains(currentYear)) {
                 spinnerVals.add(currentYear);
+                startYearsIndices.put(currentYear, i);
+            }
         }
         return spinnerVals;
     }
@@ -93,19 +108,20 @@ public class GraphActivity extends ActionBarActivity {
         String yearString = startYearSpinner.getSelectedItem().toString();
 
         List<String> spinnerVals = new ArrayList<String>();
-        Iterator<Long> keysIterator = MainActivity.sensorDataMap.keySet().iterator();
         Date currentTimestamp;
 
-        while (keysIterator.hasNext()){
-            currentTimestamp = new Date(keysIterator.next());
-            String currentYear = yearFormatter.format(currentTimestamp);
-            if (!currentYear.equals(yearString)) continue;
 
-            else {
-                String currentMonth = monthFormatter.format(currentTimestamp);
-                if (!spinnerVals.contains(currentMonth))
-                    spinnerVals.add(currentMonth);
+        for (int i= startYearsIndices.get(yearString); i<sensorDataList.size(); i++){
+            currentTimestamp = new Date(sensorDataList.get(i));
+            String currentYear = yearFormatter.format(currentTimestamp);
+            if (!currentYear.equals(yearString)) break;
+
+            String currentMonth = monthFormatter.format(currentTimestamp);
+            if (!spinnerVals.contains(currentMonth)) {
+                spinnerVals.add(currentMonth);
+                startMonthsIndices.put(currentMonth, i);
             }
+
         }
         return spinnerVals;
     }
@@ -114,31 +130,37 @@ public class GraphActivity extends ActionBarActivity {
         String monthString = startMonthSpinner.getSelectedItem().toString();
 
         List<String> spinnerVals = new ArrayList<String>();
-        Iterator<Long> keysIterator = MainActivity.sensorDataMap.keySet().iterator();
         Date currentTimestamp;
 
-        while (keysIterator.hasNext()){
-            currentTimestamp = new Date(keysIterator.next());
+        for (int i= startMonthsIndices.get(monthString); i<sensorDataList.size(); i++){
+            currentTimestamp = new Date(sensorDataList.get(i));
             String currentMonth = monthFormatter.format(currentTimestamp);
             String currentYear = yearFormatter.format(currentTimestamp);
-            if (currentMonth.equals(monthString) && currentYear.equals(yearString)){
-                String currentDay = dayFormmatter.format(currentTimestamp);
-                if (!spinnerVals.contains(currentDay))
-                    spinnerVals.add(currentDay);
+            if (!currentMonth.equals(monthString) && !currentYear.equals(yearString)) break;
+
+            String currentDay = dayFormmatter.format(currentTimestamp);
+            if (!spinnerVals.contains(currentDay)) {
+                spinnerVals.add(currentDay);
             }
+
         }
         return spinnerVals;
     }
 
     private List<String> getEndYears(){
         List<String> spinnerVals = new ArrayList<String>();
-        Iterator<Long> keysIterator = getEndIterator();
         Date currentTimestamp;
-        while (keysIterator.hasNext()){
-            currentTimestamp = new Date(keysIterator.next());
+
+        for (int i=0; i<sensorDataList.size(); i++){
+            Long currentEpoch = sensorDataList.get(i);
+            if (currentEpoch<startAsEpoch) continue;
+
+            currentTimestamp = new Date(currentEpoch);
             String currentYear = yearFormatter.format(currentTimestamp);
-            if (!spinnerVals.contains(currentYear))
+            if (!spinnerVals.contains(currentYear)) {
                 spinnerVals.add(currentYear);
+                endYearsIndices.put(currentYear, i);
+            }
         }
         return spinnerVals;
     }
@@ -147,19 +169,19 @@ public class GraphActivity extends ActionBarActivity {
         String yearString = endYearSpinner.getSelectedItem().toString();
 
         List<String> spinnerVals = new ArrayList<String>();
-        Iterator<Long> keysIterator = getEndIterator();
         Date currentTimestamp;
 
-        while (keysIterator.hasNext()){
-            currentTimestamp = new Date(keysIterator.next());
+        for (int i= endYearsIndices.get(yearString); i<sensorDataList.size(); i++){
+            currentTimestamp = new Date(sensorDataList.get(i));
             String currentYear = yearFormatter.format(currentTimestamp);
-            if (!currentYear.equals(yearString)) continue;
+            if (!currentYear.equals(yearString)) break;
 
-            else {
-                String currentMonth = monthFormatter.format(currentTimestamp);
-                if (!spinnerVals.contains(currentMonth))
-                    spinnerVals.add(currentMonth);
+            String currentMonth = monthFormatter.format(currentTimestamp);
+            if (!spinnerVals.contains(currentMonth)) {
+                spinnerVals.add(currentMonth);
+                endMonthsIndices.put(currentMonth, i);
             }
+
         }
         return spinnerVals;
     }
@@ -168,18 +190,19 @@ public class GraphActivity extends ActionBarActivity {
         String monthString = endMonthSpinner.getSelectedItem().toString();
 
         List<String> spinnerVals = new ArrayList<String>();
-        Iterator<Long> keysIterator = getEndIterator();
         Date currentTimestamp;
 
-        while (keysIterator.hasNext()){
-            currentTimestamp = new Date(keysIterator.next());
+        for (int i= endMonthsIndices.get(monthString); i<sensorDataList.size(); i++){
+            currentTimestamp = new Date(sensorDataList.get(i));
             String currentMonth = monthFormatter.format(currentTimestamp);
             String currentYear = yearFormatter.format(currentTimestamp);
-            if (currentMonth.equals(monthString) && currentYear.equals(yearString)){
-                String currentDay = dayFormmatter.format(currentTimestamp);
-                if (!spinnerVals.contains(currentDay))
-                    spinnerVals.add(currentDay);
+            if (!currentMonth.equals(monthString) && !currentYear.equals(yearString)) break;
+
+            String currentDay = dayFormmatter.format(currentTimestamp);
+            if (!spinnerVals.contains(currentDay)) {
+                spinnerVals.add(currentDay);
             }
+
         }
         return spinnerVals;
     }
