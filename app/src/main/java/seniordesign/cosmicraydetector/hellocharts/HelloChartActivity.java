@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import lecho.lib.hellocharts.formatter.SimpleAxisValueFormatter;
 import lecho.lib.hellocharts.formatter.SimpleLineChartValueFormatter;
 import lecho.lib.hellocharts.gesture.ZoomType;
 import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
@@ -177,6 +178,7 @@ public class HelloChartActivity extends ActionBarActivity {
         }
         else if(xType.equalsIgnoreCase("pressure")){
             xAxisLabel = "Pressure (C)";
+            xAxis.setFormatter(new SimpleAxisValueFormatter(1));
         }
         else if(xType.equalsIgnoreCase("date")){
             xAxisLabel = "Date (MM-DD-YY)";
@@ -189,8 +191,9 @@ public class HelloChartActivity extends ActionBarActivity {
         }
         xAxis.setName(xAxisLabel);
         xAxis.setTextColor(Color.BLACK);
-        xAxis.setHasTiltedLabels(true);
-
+        xAxis.setHasTiltedLabels(false);
+        xAxis.setMaxLabelChars(10);
+        xAxis.setInside(true);
 
         //Y AXIS SETUP
         if(yType.equalsIgnoreCase("temperature")){
@@ -198,6 +201,7 @@ public class HelloChartActivity extends ActionBarActivity {
         }
         else if(yType.equalsIgnoreCase("pressure")){
             yAxisLabel = "Pressure (C)";
+            yAxis.setFormatter(new SimpleAxisValueFormatter(1));
         }
         else if(yType.equalsIgnoreCase("date")){
             yAxisLabel = "Date (MM-DD-YY)";
@@ -210,10 +214,14 @@ public class HelloChartActivity extends ActionBarActivity {
         }
         yAxis.setName(yAxisLabel);
         yAxis.setTextColor(Color.BLACK);
+        yAxis.setMaxLabelChars(10);
+        yAxis.setInside(true);
 
         //Setup Chart Data
         data.setAxisXBottom(xAxis);
         data.setAxisYLeft(yAxis);
+        data.setValueLabelsTextColor(Color.RED);
+        data.setValueLabelTextSize(2);
         data.setBaseValue(Float.NEGATIVE_INFINITY);
 
         if(yType.equalsIgnoreCase("temperature")){
@@ -236,6 +244,28 @@ public class HelloChartActivity extends ActionBarActivity {
         //Get ChartView
         chart = (LineChartView) findViewById(R.id.chart);
         chart.setLineChartData(data);
+        Viewport v = new Viewport(chart.getMaximumViewport());
+
+        //Setup X Viewpoints
+        if(xType.equalsIgnoreCase("Humidity")){
+            v.left = 0;
+            v.right = 0;
+        }
+        else{
+            v.top += 3;
+            v.bottom -= 3;
+        }
+        //Setup Y Viewpoints
+        if(yType.equalsIgnoreCase("Humidity")){
+            v.top = 100;
+            v.bottom = 0;
+        }
+
+        chart.setMaximumViewport(v);
+        chart.setCurrentViewport(v);
+        chart.setViewportCalculationEnabled(true);
+
+
         //Default zoom will be scrolling left to right only
         //chart.setZoomType(ZoomType.HORIZONTAL);
 
@@ -276,6 +306,10 @@ public class HelloChartActivity extends ActionBarActivity {
             return true;
         }
         if (id == R.id.action_toggleCubic) {
+            isCubic = chart.getLineChartData().getLines().get(0).isCubic();
+            isCubic = !isCubic;
+            chart.getLineChartData().getLines().get(0).setCubic(isCubic);
+            chart.invalidate();
 
             return true;
         }
