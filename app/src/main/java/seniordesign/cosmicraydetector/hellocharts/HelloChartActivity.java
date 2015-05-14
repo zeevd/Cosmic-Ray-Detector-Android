@@ -55,6 +55,8 @@ public class HelloChartActivity extends ActionBarActivity {
         Set<Long> keySet = MainActivity.sensorDataMap.keySet();
 
         for(Long key : keySet){
+            if (key < GraphActivity.startAsEpoch) continue;
+            if (key > GraphActivity.endAsEpoch) break;
 
             sensorData = MainActivity.sensorDataMap.get(key);
 
