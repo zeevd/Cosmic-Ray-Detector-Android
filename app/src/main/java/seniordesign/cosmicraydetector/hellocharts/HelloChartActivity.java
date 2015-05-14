@@ -6,15 +6,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import lecho.lib.hellocharts.formatter.SimpleLineChartValueFormatter;
 import lecho.lib.hellocharts.gesture.ZoomType;
+import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
@@ -33,6 +36,16 @@ public class HelloChartActivity extends ActionBarActivity {
 
     ///LOGGING TAG///
     private static final String TAG = "HelloChartActivity";
+
+
+    private LineChartView chart;
+    private LineChartData data;
+
+    private boolean hasLines = true;
+    private boolean hasPoints = true;
+    private boolean isFilled = false;
+    private boolean isCubic = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +88,7 @@ public class HelloChartActivity extends ActionBarActivity {
             else if(xType.equalsIgnoreCase("date")){
                 xValue = new Long(sensorData.getDate().getTime()).floatValue();
                 AxisValue xLabel = new AxisValue(xValue);
-                SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
                 String dateLabel = dateFormat.format(sensorData.getDate());
                 xLabel.setLabel(dateLabel);
                 xAxisValue.add(xLabel);
@@ -134,7 +147,7 @@ public class HelloChartActivity extends ActionBarActivity {
         lines.add(line);
 
 
-        LineChartData data = new LineChartData();
+        data = new LineChartData();
         data.setLines(lines);
 
         Axis xAxis = new Axis().setHasLines(true);
@@ -211,7 +224,7 @@ public class HelloChartActivity extends ActionBarActivity {
 
 
         //Get ChartView
-        LineChartView chart = (LineChartView) findViewById(R.id.chart);
+        chart = (LineChartView) findViewById(R.id.chart);
         chart.setLineChartData(data);
         //Default zoom will be scrolling left to right only
         //chart.setZoomType(ZoomType.HORIZONTAL);
@@ -235,13 +248,50 @@ public class HelloChartActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-
-
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_togglePoints) {
+
+            hasPoints = chart.getLineChartData().getLines().get(0).hasPoints();
+            hasPoints = !hasPoints;
+            chart.getLineChartData().getLines().get(0).setHasPoints(hasPoints);
+            chart.invalidate();
+
+            return true;
+        }
+        if (id == R.id.action_toggleLine) {
+            hasLines = chart.getLineChartData().getLines().get(0).hasLines();
+            hasLines = !hasLines;
+            chart.getLineChartData().getLines().get(0).setHasLines(hasLines);
+            chart.invalidate();;
+            return true;
+        }
+        if (id == R.id.action_toggleCubic) {
+
+            return true;
+        }
+        if (id == R.id.action_toggleArea) {
+            isFilled = chart.getLineChartData().getLines().get(0).isFilled();
+            isFilled = !isFilled;
+            chart.getLineChartData().getLines().get(0).setFilled(isFilled);
+            chart.invalidate();
+            return true;
+        }
+        if (id == R.id.action_zoomX) {
+            chart.setZoomType(ZoomType.HORIZONTAL);
+            return true;
+        }
+        if (id == R.id.action_zoomY) {
+            chart.setZoomType(ZoomType.VERTICAL);
+            return true;
+        }
+        if (id == R.id.action_zoomXY) {
+            chart.setZoomType(ZoomType.HORIZONTAL_AND_VERTICAL);
             return true;
         }
 
+
         return super.onOptionsItemSelected(item);
     }
+
+
 }
