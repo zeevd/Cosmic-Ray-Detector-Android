@@ -21,6 +21,7 @@ import com.dropbox.sync.android.DbxFileSystem;
 import com.dropbox.sync.android.DbxPath;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
@@ -40,6 +41,7 @@ public class MainActivity extends ActionBarActivity {
     ///GLOBAL VARIABLES///
     public static DbxAccountManager mDbxAcctMgr;
     public static TreeMap<Long, SensorData> sensorDataMap = new TreeMap<Long, SensorData>();
+    public static ArrayList<Long> sensorDataList = new ArrayList<Long>();
     ProgressDialog loadingDialog;
 
 
@@ -145,6 +147,10 @@ public class MainActivity extends ActionBarActivity {
                 currentFile.close();
             }
         }
+        Log.i(TAG, "Copying keyset to sensorDataList");
+        Iterator<Long> i = sensorDataMap.keySet().iterator();
+        while (i.hasNext()) sensorDataList.add(i.next());
+
         Toast.makeText(this, "Finished loading data from Dropbox", Toast.LENGTH_LONG).show();
     }
 
