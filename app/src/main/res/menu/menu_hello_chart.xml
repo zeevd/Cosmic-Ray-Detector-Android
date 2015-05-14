@@ -2,6 +2,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="seniordesign.cosmicraydetector.hellocharts.HelloChartActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+
+    <item android:id="@+id/action_togglePoints" android:title="Toggle Data Points"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_toggleLine" android:title="Toggle Line"
+        android:orderInCategory="200" app:showAsAction="never" />
+    <item android:id="@+id/action_toggleCubic" android:title="Toggle Cubic Curve"
+        android:orderInCategory="300" app:showAsAction="never" />
+    <item android:id="@+id/action_toggleArea" android:title="Toggle Area"
+        android:orderInCategory="400" app:showAsAction="never" />
+    <item android:id="@+id/action_zoomX" android:title="Zoom X"
+        android:orderInCategory="500" app:showAsAction="never" />
+    <item android:id="@+id/action_zoomY" android:title="Zoom Y"
+        android:orderInCategory="600" app:showAsAction="never" />
+    <item android:id="@+id/action_zoomXY" android:title="Zoom X/Y"
+        android:orderInCategory="700" app:showAsAction="never" />
+
+
 </menu>
