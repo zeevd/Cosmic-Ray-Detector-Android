@@ -35,7 +35,7 @@ public class GraphActivity extends ActionBarActivity {
 
     private Spinner startYearSpinner,startMonthSpinner,startDaySpinner;
 
-    Long startAsEpoch;
+    public static Long startAsEpoch, endAsEpoch;
     private Spinner endYearSpinner,endMonthSpinner,endDaySpinner;
 
     private RadioGroup radioGroup;
@@ -66,7 +66,7 @@ public class GraphActivity extends ActionBarActivity {
         spinner.setOnItemSelectedListener(listener);
     }
 
-    private Iterator<Long> getEndIterator() {
+    public Iterator<Long> getEndIterator() {
         List<String> spinnerVals = new ArrayList<String>();
         Iterator<Long> keysIterator = MainActivity.sensorDataMap.keySet().iterator();
         Date currentTimestamp;
@@ -205,10 +205,25 @@ public class GraphActivity extends ActionBarActivity {
     };
     AdapterView.OnItemSelectedListener endDayListener = new AdapterView.OnItemSelectedListener() {
         @Override
-        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l){}
+        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l){
+            String endAsString = endMonthSpinner.getSelectedItem().toString() + "_" + endDaySpinner.getSelectedItem().toString() + "_" + endYearSpinner.getSelectedItem().toString();
+            SimpleDateFormat toEpochFormmatter = new SimpleDateFormat("MM_dd_yy");
+            try {
+                Date d = toEpochFormmatter.parse(endAsString);
+                endAsEpoch = d.getTime();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
 
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {}
+
+
+
+
+
     };
 
     AdapterView.OnItemSelectedListener startYearListener = new AdapterView.OnItemSelectedListener() {
