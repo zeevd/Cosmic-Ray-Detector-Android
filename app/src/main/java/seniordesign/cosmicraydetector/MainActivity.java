@@ -33,7 +33,7 @@ public class MainActivity extends ActionBarActivity {
     private static final String TAG = "MainActivity";
 
     ///DROPBOX RELATED CONSTANTS///
-    private static final int DROPBOX_REQUEST_CODE = 100;
+    public static final int DROPBOX_REQUEST_CODE = 100;
     private static final String APP_KEY = "ogamnznpp7actyg";
     private static final String APP_SECRET = "98jkkfgplqciq9l";
 
@@ -116,10 +116,10 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void readFilesFromDropbox() throws DbxException {
-        //TODO: finish writing this method!
         Log.i(TAG, "Getting Dropbox filesystem");
         DbxFileSystem dbxFs = DbxFileSystem.forAccount(mDbxAcctMgr.getLinkedAccount());
-        List<DbxFileInfo> dropboxFileList = dbxFs.listFolder(DbxPath.ROOT);
+        DbxPath path = new DbxPath(getString(R.string.dropbox_path));
+        List<DbxFileInfo> dropboxFileList = dbxFs.listFolder(path);
 
         Log.i(TAG, "Files on Dropbox:\n");
         for (DbxFileInfo info : dropboxFileList) {

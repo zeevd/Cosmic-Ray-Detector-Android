@@ -1,13 +1,11 @@
 package seniordesign.cosmicraydetector;
 
 import android.graphics.Color;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
-
 
 import com.cengalabs.flatui.FlatUI;
 
@@ -16,11 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.TimeZone;
 
 import lecho.lib.hellocharts.formatter.SimpleAxisValueFormatter;
 import lecho.lib.hellocharts.formatter.SimpleLineChartValueFormatter;
 import lecho.lib.hellocharts.gesture.ZoomType;
-import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
@@ -28,12 +26,7 @@ import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.ValueShape;
 import lecho.lib.hellocharts.model.Viewport;
-import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.LineChartView;
-import seniordesign.cosmicraydetector.GraphActivity;
-import seniordesign.cosmicraydetector.MainActivity;
-import seniordesign.cosmicraydetector.R;
-import seniordesign.cosmicraydetector.SensorData;
 
 public class HelloChartActivity extends ActionBarActivity {
 
@@ -100,6 +93,7 @@ public class HelloChartActivity extends ActionBarActivity {
                 xValue = new Long(sensorData.getDate().getTime()).floatValue();
                 AxisValue xLabel = new AxisValue(xValue);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
+                dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
                 String dateLabel = dateFormat.format(sensorData.getDate());
                 xLabel.setLabel(dateLabel);
                 xAxisValue.add(xLabel);
@@ -122,6 +116,7 @@ public class HelloChartActivity extends ActionBarActivity {
                 yValue = new Long(sensorData.getDate().getTime()).floatValue();
                 AxisValue yLabel = new AxisValue(yValue);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+                dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
                 String dateLabel = dateFormat.format(sensorData.getDate());
                 yLabel.setLabel(dateLabel);
                 yAxisValue.add(yLabel);
@@ -141,7 +136,7 @@ public class HelloChartActivity extends ActionBarActivity {
             values.add(point);
         }// end of for loop
 
-        Line line = new Line(values).setColor(Color.BLUE).setCubic(false);
+        Line line = new Line(values).setColor(Color.RED).setCubic(false);
         List<Line> lines = new ArrayList<Line>(1);
 
         //Initial Line Setup

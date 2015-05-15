@@ -8,14 +8,9 @@ import android.view.View;
 
 import com.cengalabs.flatui.FlatUI;
 
-/**
- * Created by zeevd_000 on 3/29/2015.
- */
 public class AboutActivity extends ActionBarActivity {
     ///LOGGING TAG///
     private static final String TAG = "AboutActivity";
-
-    //TODO: LOGGING
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

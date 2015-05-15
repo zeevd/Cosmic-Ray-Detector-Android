@@ -19,40 +19,41 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.TreeMap;
 
 public class GraphActivity extends ActionBarActivity {
     ///LOGGING TAG///
     private static final String TAG = "GraphActivity";
 
-    final SimpleDateFormat yearFormatter = new SimpleDateFormat("yyyy");
-    final SimpleDateFormat monthFormatter = new SimpleDateFormat("MM");
-    final SimpleDateFormat dayFormmatter = new SimpleDateFormat("dd");
-
     //GLOBAL VARIABLES///
     public static String xType = "";
     public static String yType = "" ;
 
-    private Spinner startYearSpinner,startMonthSpinner,startDaySpinner;
-
+    //Time-related stuff
+    final SimpleDateFormat yearFormatter = new SimpleDateFormat("yyyy");
+    final SimpleDateFormat monthFormatter = new SimpleDateFormat("MM");
+    final SimpleDateFormat dayFormmatter = new SimpleDateFormat("dd");
+    final static int endOfDayOffSet = 86399000; //23 hrs, 59 min, 59 sec
     public static Long startAsEpoch, endAsEpoch;
-    private Spinner endYearSpinner,endMonthSpinner,endDaySpinner;
 
+    //UI Stuff
+    private Spinner startYearSpinner,startMonthSpinner,startDaySpinner;
+    private Spinner endYearSpinner,endMonthSpinner,endDaySpinner;
     private RadioGroup radioGroup;
-    private RadioButton buttonClicked;
 
     //Data structure-related
     TreeMap<Long,SensorData> sensorDataMap = MainActivity.sensorDataMap;
     ArrayList<Long> sensorDataList = MainActivity.sensorDataList;
+    //Contains a copy of the sensorDataMap keyset to allow random access by index
 
+    //<Year,Index> maps. E.G. "2014, 5" means that the first timestamp in 2014 is located
+    //at index 5 in the sensorDataList
     HashMap<String,Integer> startYearsIndices = new HashMap<String,Integer>();
     HashMap<String,Integer> startMonthsIndices = new HashMap<String,Integer>();
-
     HashMap<String,Integer> endYearsIndices = new HashMap<String,Integer>();
     HashMap<String,Integer> endMonthsIndices = new HashMap<String,Integer>();
-
 
 
     @Override
@@ -66,51 +67,52 @@ public class GraphActivity extends ActionBarActivity {
         setContentView(R.layout.activity_graph);
         getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(this, FlatUI.BLOOD, false, 2));
 
+        Log.i(TAG, "Setting all timezones to GMT");
+        yearFormatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+        monthFormatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+        dayFormmatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+        Log.i(TAG, "Initializing GUI elements");
         startYearSpinner = (Spinner) findViewById(R.id.spinner_startyear);
         startMonthSpinner = (Spinner) findViewById(R.id.spinner_startmonth);
         startDaySpinner = (Spinner) findViewById(R.id.spinner_startday);
-
         endYearSpinner = (Spinner) findViewById(R.id.spinner_endyear);
         endMonthSpinner = (Spinner) findViewById(R.id.spinner_endmonth);
         endDaySpinner = (Spinner) findViewById(R.id.spinner_endday);
 
+        Log.i(TAG, "Starting spinner init sequeunce");
         initSpinner(startYearSpinner, getStartYears(), startYearListener);
 
     }
 
 
     public void initSpinner(Spinner spinner, List<String> spinnerVals, AdapterView.OnItemSelectedListener listener) {
+        Log.v(TAG, "Creating spinner for vals: " + spinnerVals);
         ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,spinnerVals);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(listener);
     }
 
-    public Iterator<Long> getEndIterator() {
-        List<String> spinnerVals = new ArrayList<String>();
-        Iterator<Long> keysIterator = sensorDataMap.keySet().iterator();
-        Date currentTimestamp;
-        while (keysIterator.hasNext()) {
-            Long currentEpoch = keysIterator.next();
-            if (currentEpoch >= startAsEpoch) break;
-        }
-        return keysIterator;
-    }
 
     private List<String> getStartYears(){
+        Log.i(TAG,"Obtaining data for the start year spinner");
         List<String> spinnerVals = new ArrayList<String>();
         Date currentTimestamp;
         for (int i=0; i<sensorDataList.size(); i++){
             currentTimestamp = new Date(sensorDataList.get(i));
             String currentYear = yearFormatter.format(currentTimestamp);
-            if (!spinnerVals.contains(currentYear)) {
+            if (!spinnerVals.contains(currentYear)) {//If current year not in spinnerVals, add it
                 spinnerVals.add(currentYear);
                 startYearsIndices.put(currentYear, i);
             }
         }
+        Log.v(TAG, "Data obtained: " + spinnerVals);
         return spinnerVals;
     }
+
     private List<String> getStartMonths(){
+        Log.i(TAG,"Obtaining data for the start month spinner");
         String yearString = startYearSpinner.getSelectedItem().toString();
 
         List<String> spinnerVals = new ArrayList<String>();
@@ -129,10 +131,11 @@ public class GraphActivity extends ActionBarActivity {
             }
 
         }
+        Log.v(TAG, "Data obtained: " + spinnerVals);
         return spinnerVals;
     }
     private List<String> getStartDays(){
-        String yearString = startYearSpinner.getSelectedItem().toString();
+        Log.i(TAG,"Obtaining data for the start day spinner");
         String monthString = startMonthSpinner.getSelectedItem().toString();
 
         List<String> spinnerVals = new ArrayList<String>();
@@ -141,8 +144,7 @@ public class GraphActivity extends ActionBarActivity {
         for (int i= startMonthsIndices.get(monthString); i<sensorDataList.size(); i++){
             currentTimestamp = new Date(sensorDataList.get(i));
             String currentMonth = monthFormatter.format(currentTimestamp);
-            String currentYear = yearFormatter.format(currentTimestamp);
-            if (!currentMonth.equals(monthString) && !currentYear.equals(yearString)) break;
+            if (!currentMonth.equals(monthString)) break;
 
             String currentDay = dayFormmatter.format(currentTimestamp);
             if (!spinnerVals.contains(currentDay)) {
@@ -150,10 +152,12 @@ public class GraphActivity extends ActionBarActivity {
             }
 
         }
+        Log.v(TAG, "Data obtained: " + spinnerVals);
         return spinnerVals;
     }
 
     private List<String> getEndYears(){
+        Log.i(TAG,"Obtaining data for the end year spinner");
         List<String> spinnerVals = new ArrayList<String>();
         Date currentTimestamp;
 
@@ -168,10 +172,12 @@ public class GraphActivity extends ActionBarActivity {
                 endYearsIndices.put(currentYear, i);
             }
         }
+        Log.v(TAG, "Data obtained: " + spinnerVals);
         return spinnerVals;
     }
 
     private List<String> getEndMonths(){
+        Log.i(TAG,"Obtaining data for the end month spinner");
         String yearString = endYearSpinner.getSelectedItem().toString();
 
         List<String> spinnerVals = new ArrayList<String>();
@@ -189,10 +195,11 @@ public class GraphActivity extends ActionBarActivity {
             }
 
         }
+        Log.v(TAG, "Data obtained: " + spinnerVals);
         return spinnerVals;
     }
     private List<String> getEndDays(){
-        String yearString = endYearSpinner.getSelectedItem().toString();
+        Log.i(TAG,"Obtaining data for the end day spinner");
         String monthString = endMonthSpinner.getSelectedItem().toString();
 
         List<String> spinnerVals = new ArrayList<String>();
@@ -201,8 +208,7 @@ public class GraphActivity extends ActionBarActivity {
         for (int i= endMonthsIndices.get(monthString); i<sensorDataList.size(); i++){
             currentTimestamp = new Date(sensorDataList.get(i));
             String currentMonth = monthFormatter.format(currentTimestamp);
-            String currentYear = yearFormatter.format(currentTimestamp);
-            if (!currentMonth.equals(monthString) && !currentYear.equals(yearString)) break;
+            if (!currentMonth.equals(monthString)) break;
 
             String currentDay = dayFormmatter.format(currentTimestamp);
             if (!spinnerVals.contains(currentDay)) {
@@ -210,6 +216,7 @@ public class GraphActivity extends ActionBarActivity {
             }
 
         }
+        Log.v(TAG, "Data obtained: " + spinnerVals);
         return spinnerVals;
     }
 
@@ -217,7 +224,8 @@ public class GraphActivity extends ActionBarActivity {
     AdapterView.OnItemSelectedListener endYearListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-            initSpinner(endMonthSpinner,getEndMonths(),endMonthListener);
+            Log.i(TAG, "End year spinner selected. Initizaliing content");
+            initSpinner(endMonthSpinner, getEndMonths(), endMonthListener);
         }
 
         @Override
@@ -226,6 +234,7 @@ public class GraphActivity extends ActionBarActivity {
     AdapterView.OnItemSelectedListener endMonthListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            Log.i(TAG, "End month spinner selected. Initizaliing content");
             initSpinner(endDaySpinner, getEndDays(), endDayListener);
         }
 
@@ -235,29 +244,28 @@ public class GraphActivity extends ActionBarActivity {
     AdapterView.OnItemSelectedListener endDayListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l){
+            Log.i(TAG, "End day spinner selected. Initizaliing content");
             String endAsString = endMonthSpinner.getSelectedItem().toString() + "_" + endDaySpinner.getSelectedItem().toString() + "_" + endYearSpinner.getSelectedItem().toString();
             SimpleDateFormat toEpochFormmatter = new SimpleDateFormat("MM_dd_yy");
+            toEpochFormmatter.setTimeZone(TimeZone.getTimeZone("GMT"));
             try {
                 Date d = toEpochFormmatter.parse(endAsString);
-                endAsEpoch = d.getTime();
+                endAsEpoch = d.getTime() + endOfDayOffSet;
+                Log.i(TAG, "End date as string: " + endAsString + " as epoch " + endAsEpoch);
             } catch (ParseException e) {
-                e.printStackTrace();
+                Log.e(TAG, e.getMessage());
             }
-
         }
 
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {}
-
-
-
-
 
     };
 
     AdapterView.OnItemSelectedListener startYearListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            Log.i(TAG, "Start year spinner selected. Initizaliing content");
             initSpinner(startMonthSpinner,getStartMonths(),startMonthListener);
         }
 
@@ -267,6 +275,7 @@ public class GraphActivity extends ActionBarActivity {
     AdapterView.OnItemSelectedListener startMonthListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            Log.i(TAG, "Start month spinner selected. Initizaliing content");
             initSpinner(startDaySpinner, getStartDays(), startDayListener);
         }
 
@@ -276,14 +285,17 @@ public class GraphActivity extends ActionBarActivity {
     AdapterView.OnItemSelectedListener startDayListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            Log.i(TAG, "Start day spinner selected. Initizaliing content");
             String startAsString = startMonthSpinner.getSelectedItem().toString() + "_" + startDaySpinner.getSelectedItem().toString() + "_" + startYearSpinner.getSelectedItem().toString();
             SimpleDateFormat toEpochFormmatter = new SimpleDateFormat("MM_dd_yy");
+            toEpochFormmatter.setTimeZone(TimeZone.getTimeZone("GMT"));
             try {
                 Date d = toEpochFormmatter.parse(startAsString);
                 startAsEpoch = d.getTime();
                 initSpinner(endYearSpinner,getEndYears(),endYearListener);
+                Log.i(TAG, "Start date as string: " + startAsString + " as epoch " + startAsEpoch);
             } catch (ParseException e) {
-                e.printStackTrace();
+                Log.e(TAG, e.getMessage());
             }
 
         }

@@ -32,9 +32,10 @@ public class ContactActivity extends ActionBarActivity{
     }
 
     void popupEmailAddress(String emailAddress, String name){
+        Log.i(TAG, "Showing AlertDialog for " + name + ": " + emailAddress);
         final TextView message = new TextView(this);
         final SpannableString s = new SpannableString(emailAddress);
-        Linkify.addLinks(s, Linkify.EMAIL_ADDRESSES);
+        Linkify.addLinks(s, Linkify.EMAIL_ADDRESSES);//Make address clickable
         message.setText(s);
         message.setTextSize(26);
         message.setMovementMethod(LinkMovementMethod.getInstance());
@@ -49,23 +50,28 @@ public class ContactActivity extends ActionBarActivity{
     }
 
 
-    public void onClickHelio(View view) {
-        popupEmailAddress("takai@bnl.gov","Dr. Helio Takai");
+    public void onClickHelio(View view){
+        Log.i(TAG, "onClickHelio Called");
+        popupEmailAddress("takai@bnl.gov", "Dr. Helio Takai");
     }
 
     public void onClickMonica(View view) {
+        Log.i(TAG, "onClickMonica Called");
         popupEmailAddress("monica.bugallo@stonybrook.edu", "Dr. Monica F. Bugallo");
     }
 
     public void onClickZeev(View view) {
+        Log.i(TAG, "onClickZeev Called");
         popupEmailAddress("zeev.douek@gmail.com", "Zeev Douek");
     }
 
     public void onClickTochukwu(View view) {
+        Log.i(TAG, "onClickTochukwu Called");
         popupEmailAddress("Takujuo@gmail.com", "Tochukwu Akujuo");
     }
 
     public void onClickSaket(View view) {
+        Log.i(TAG, "onClickSaket Called");
         popupEmailAddress("Atisaket@gmail.com", "Saket Ati");
     }
 

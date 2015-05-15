@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class SensorData {
     ///CONSTANTS///
@@ -63,6 +64,7 @@ public class SensorData {
         List<SensorData> dataFromFile = new ArrayList<SensorData>();    //To be returned
 
         DateFormat dateFormat = new SimpleDateFormat("MM_dd_yy HH:mm:ss");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         Log.v(TAG, "Splitting up data based on individual rows");
         String[] rows = fileContent.split("\n");
@@ -76,7 +78,6 @@ public class SensorData {
                 continue; //Skip invalid row
             }
 
-            //TODO: test and document
             try {
                 currentDate = dateFormat.parse(rowContent[DATE_INDEX].trim());
                 currentCount = Integer.parseInt(rowContent[COUNT_INDEX]);
