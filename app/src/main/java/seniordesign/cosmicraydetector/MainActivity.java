@@ -47,8 +47,14 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "Initializing MainActivity.java");
-
         super.onCreate(savedInstanceState);
+
+        Log.i(TAG, "Init FlatUI");
+        FlatUI.initDefaultValues(this);
+        FlatUI.setDefaultTheme(FlatUI.BLOOD);
+        setContentView(R.layout.activity_main);
+        getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(this, FlatUI.BLOOD, false, 2));
+
 
         boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
 
@@ -60,13 +66,6 @@ public class MainActivity extends ActionBarActivity {
             Log.i(TAG, "Not first run detected");
             initDropbox();
         }
-
-        Log.i(TAG, "Init FlatUI");
-        FlatUI.initDefaultValues(this);
-        FlatUI.setDefaultTheme(FlatUI.BLOOD);
-        setContentView(R.layout.activity_main);
-        getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(this, FlatUI.BLOOD, false, 2));
-
 
 
     }
