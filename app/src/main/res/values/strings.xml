@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Cosmic Ray Detector</string>
+    <string name="app_name">Cosmic Ray Graphing Application</string>
     <string name="activity_dropbox">Dropbox Settings</string>
 
     <string name="action_dropbox_settings">Dropbox Settings</string>
@@ -22,8 +22,8 @@
     <string name="choose_y_axis">Choose Y-Axis</string>
     <string name="humidity_string">Humidity</string>
     <string name="graph_string">Generate Graph</string>
-    <string name="select_time">Select End Time</string>
-    <string name="select_start">Select start time</string>
+    <string name="select_end_time">Select End Time</string>
+    <string name="select_start_time">Select Start time</string>
 
 
 </resources>

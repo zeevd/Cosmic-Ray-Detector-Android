@@ -1,4 +1,4 @@
-package seniordesign.cosmicraydetector.hellocharts;
+package seniordesign.cosmicraydetector;
 
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;

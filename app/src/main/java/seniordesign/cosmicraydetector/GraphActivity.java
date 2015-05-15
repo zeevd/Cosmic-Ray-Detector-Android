@@ -23,8 +23,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
 
-import seniordesign.cosmicraydetector.hellocharts.HelloChartActivity;
-
 public class GraphActivity extends ActionBarActivity {
     ///LOGGING TAG///
     private static final String TAG = "GraphActivity";

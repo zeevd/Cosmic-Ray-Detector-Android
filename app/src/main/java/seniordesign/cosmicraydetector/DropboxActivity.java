@@ -1,4 +1,4 @@
-package seniordesign.cosmicraydetector.dropbox;
+package seniordesign.cosmicraydetector;
 
 import android.app.Activity;
 import android.app.AlertDialog;

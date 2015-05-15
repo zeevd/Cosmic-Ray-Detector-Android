@@ -20,32 +20,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AboutActivity"
-            android:label="About The Application"
-            android:screenOrientation="landscape">
+            android:name=".ContactActivity"
+            android:label="Contact Us"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".HelpActivity"
-            android:label="Help"
+            android:name=".AboutActivity"
+            android:label="About"
             android:screenOrientation="landscape">
         </activity>
         <activity
             android:name=".GraphActivity"
-            android:label="Graphing"
+            android:label="Graph Generator"
             android:screenOrientation="landscape">
         </activity>
+
         <activity
-            android:name=".androidplot.CountVsTimeActivity"
-            android:label="Cosmic Ray Count vs. Time"
-            android:screenOrientation="landscape">
-        </activity>
-        <activity
-            android:name=".androidplot.CountVsPressureActivity"
-            android:label="Cosmic Ray Count vs. Pressure"
-            android:screenOrientation="landscape">
-        </activity>
-        <activity
-            android:name=".dropbox.DropboxActivity"
+            android:name=".DropboxActivity"
             android:label="@string/activity_dropbox"
             android:screenOrientation="landscape">
         </activity>
@@ -74,17 +65,7 @@
             android:label="Dropbox Sync" />
 
         <activity
-            android:name=".graphview.GraphViewActivity"
-            android:label="@string/title_activity_graph_view"
-            android:screenOrientation="landscape">
-        </activity>
-        <activity
-            android:name=".mpandroidchart.MPAChartActivity"
-            android:label="@string/title_activity_mpachart"
-            android:screenOrientation="landscape">
-        </activity>
-        <activity
-            android:name=".hellocharts.HelloChartActivity"
+            android:name=".HelloChartActivity"
             android:label="@string/title_activity_hello_chart"
             android:screenOrientation="landscape">
         </activity>

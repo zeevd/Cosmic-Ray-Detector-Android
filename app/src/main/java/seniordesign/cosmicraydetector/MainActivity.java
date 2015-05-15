@@ -14,8 +14,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.cengalabs.flatui.FlatUI;
-import com.cengalabs.flatui.TouchEffectAnimator;
-import com.cengalabs.flatui.views.FlatButton;
 import com.dropbox.sync.android.DbxAccountManager;
 import com.dropbox.sync.android.DbxException;
 import com.dropbox.sync.android.DbxFile;
@@ -28,8 +26,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
-
-import seniordesign.cosmicraydetector.dropbox.DropboxActivity;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -201,14 +197,14 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         switch (id) {
-            case R.id.action_about:
-                Log.i(TAG, "Launching AboutActivity.java");
-                Intent myIntent = new Intent(MainActivity.this, AboutActivity.class);
+            case R.id.action_contact:
+                Log.i(TAG, "Launching ContactActivity.java");
+                Intent myIntent = new Intent(MainActivity.this, ContactActivity.class);
                 MainActivity.this.startActivity(myIntent);
                 break;
-            case R.id.action_help:
-                Log.i(TAG, "Launching HelpActivity.java");
-                Intent myIntent1 = new Intent(MainActivity.this, HelpActivity.class);
+            case R.id.action_about:
+                Log.i(TAG, "Launching AboutActivity.java");
+                Intent myIntent1 = new Intent(MainActivity.this, AboutActivity.class);
                 MainActivity.this.startActivity(myIntent1);
                 break;
         }
