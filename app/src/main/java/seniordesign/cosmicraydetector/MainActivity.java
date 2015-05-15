@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -41,7 +42,6 @@ public class MainActivity extends ActionBarActivity {
     public static DbxAccountManager mDbxAcctMgr;
     public static TreeMap<Long, SensorData> sensorDataMap = new TreeMap<Long, SensorData>();
     public static ArrayList<Long> sensorDataList = new ArrayList<Long>();
-    ProgressDialog loadingDialog;
 
 
     @Override
@@ -72,11 +72,6 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void initDropbox() {
-        Log.i(TAG, "Displaying loading dialog");
-        loadingDialog = ProgressDialog.show(MainActivity.this, "",
-                "Loading data from the cloud. Please wait...", true);
-
-
         Log.i(TAG, "Getting Dropbox account manager");
         mDbxAcctMgr = DbxAccountManager.getInstance(getApplicationContext(), APP_KEY, APP_SECRET);
         if (mDbxAcctMgr.hasLinkedAccount()) {
@@ -97,19 +92,13 @@ public class MainActivity extends ActionBarActivity {
         if (requestCode == DROPBOX_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 Log.i(TAG, "Dropbox account linked");
-                try {
-                    readFilesFromDropbox();
 
-                } catch (DbxException e) {
-                    Log.e(TAG, "Failed to access files on Dropbox");
-                    e.printStackTrace();
-                }
+                new showLoadandReadDropbox().execute();
 
             } else {
                 Log.e(TAG, "Failed to link Dropbox account");
                 Toast.makeText(this, "Failed to link Dropbox account", Toast.LENGTH_LONG).show();
             }
-            loadingDialog.dismiss();
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
@@ -158,7 +147,6 @@ public class MainActivity extends ActionBarActivity {
         Iterator<Long> i = sensorDataMap.keySet().iterator();
         while (i.hasNext()) sensorDataList.add(i.next());
 
-        Toast.makeText(this, "Finished loading data from Dropbox", Toast.LENGTH_LONG).show();
     }
 
     private void showWelcomeDialog() {
@@ -225,6 +213,37 @@ public class MainActivity extends ActionBarActivity {
         MainActivity.this.startActivity(myIntent);
     }
 
+    private class showLoadandReadDropbox extends AsyncTask<Void, Void, Integer>{
+        private ProgressDialog loadingDialog = new ProgressDialog(MainActivity.this);
+
+        @Override
+        protected void onPreExecute(){
+            Log.i(TAG, "Displaying loading from Dropbox dialog");
+            loadingDialog.setMessage("Loading data from Dropbox. Please wait...");
+            loadingDialog.show();
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params){
+            try {
+                Log.i(TAG, "Reading files from Dropbox");
+                readFilesFromDropbox();
+
+            } catch (DbxException e) {
+                Log.e(TAG, "Failed to access files on Dropbox " + e.getMessage());
+            }
+            return 0;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result){
+            if(result==0)
+                Toast.makeText(MainActivity.this, "Finished loading data from Dropbox", Toast.LENGTH_LONG).show();
+
+            Log.i(TAG, "Dismissing loading from Dropbox dialog");
+            loadingDialog.dismiss();
+        }
+    }
 }
 
 
