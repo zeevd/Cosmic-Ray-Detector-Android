@@ -11,6 +11,7 @@ import com.cengalabs.flatui.FlatUI;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -36,6 +37,7 @@ public class HelloChartActivity extends ActionBarActivity {
 
     private LineChartView chart;
     private LineChartData data;
+    private final long day = 86401000;
 
     private boolean hasLines = true;
     private boolean hasPoints = true;
@@ -58,16 +60,15 @@ public class HelloChartActivity extends ActionBarActivity {
         // Get X and Y types to know what values to graph
         String xType = GraphActivity.xType;
         String yType = GraphActivity.yType;
+        Log.i(TAG, "Graphing Y: "+ yType + " X: " + xType);
 
 
         //List of vales to be graphed
-        List<PointValue> values = new ArrayList<PointValue>();
+        List<PointValue> values = new ArrayList<>();
 
         //Graph Generation
         float xValue, yValue;
-        /*
-        * TODO: Add retrieval of specified range of SensorData
-        */
+
         //List of Axis Labels
         List<AxisValue> xAxisValue = new ArrayList<>();
         List<AxisValue> yAxisValue = new ArrayList<>();
@@ -75,6 +76,12 @@ public class HelloChartActivity extends ActionBarActivity {
 
         SensorData sensorData;
         Set<Long> keySet = MainActivity.sensorDataMap.keySet();
+
+        Log.i(TAG, "Graphing from Start Date: " + new Date(GraphActivity.startAsEpoch).toString());
+        Log.i(TAG, "\n To End Date: " + new Date(GraphActivity.endAsEpoch).toString());
+        Log.i(TAG, "Difference in Long is" + (GraphActivity.endAsEpoch - GraphActivity.startAsEpoch));
+
+
 
         for(Long key : keySet){
             if (key < GraphActivity.startAsEpoch) continue;
@@ -92,7 +99,13 @@ public class HelloChartActivity extends ActionBarActivity {
             else if(xType.equalsIgnoreCase("date")){
                 xValue = new Long(sensorData.getDate().getTime()).floatValue();
                 AxisValue xLabel = new AxisValue(xValue);
-                SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
+                SimpleDateFormat dateFormat;
+                if((GraphActivity.endAsEpoch - GraphActivity.startAsEpoch) < day){
+                    dateFormat = new SimpleDateFormat("HH:mm:ss");
+                }
+                else{
+                    dateFormat = new SimpleDateFormat("MM-dd-yyyy",Locale.US);
+                }
                 dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
                 String dateLabel = dateFormat.format(sensorData.getDate());
                 xLabel.setLabel(dateLabel);
@@ -115,7 +128,13 @@ public class HelloChartActivity extends ActionBarActivity {
             else if(yType.equalsIgnoreCase("date")){
                 yValue = new Long(sensorData.getDate().getTime()).floatValue();
                 AxisValue yLabel = new AxisValue(yValue);
-                SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+                SimpleDateFormat dateFormat;
+                if((GraphActivity.endAsEpoch - GraphActivity.startAsEpoch) <= day){
+                    dateFormat = new SimpleDateFormat("HH:mm:ss");
+                }
+                else{
+                    dateFormat = new SimpleDateFormat("MM-dd-yyyy",Locale.US);
+                }
                 dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
                 String dateLabel = dateFormat.format(sensorData.getDate());
                 yLabel.setLabel(dateLabel);
@@ -128,30 +147,25 @@ public class HelloChartActivity extends ActionBarActivity {
                 yValue = sensorData.getCount().floatValue();
             }
 
-            //TODO: Add Label Generating for dates, and may append units
-
-
             //Create point and add to list
             PointValue point = new PointValue(xValue,yValue);
             values.add(point);
         }// end of for loop
 
         Line line = new Line(values).setColor(Color.RED).setCubic(false);
-        List<Line> lines = new ArrayList<Line>(1);
+        List<Line> lines = new ArrayList<>(1);
 
         //Initial Line Setup
         line.setPointRadius(3);
         line.setStrokeWidth(2);
         line.setShape(ValueShape.CIRCLE);
         line.setHasLabelsOnlyForSelected(true);
-        line.setHasPoints(true);
-        line.setHasLines(true);
+
         if(xType.equalsIgnoreCase("pressure")){
             line.setFormatter(new SimpleLineChartValueFormatter(1));
         }
 
         lines.add(line);
-
 
         data = new LineChartData();
         data.setLines(lines);
@@ -172,7 +186,7 @@ public class HelloChartActivity extends ActionBarActivity {
             xAxisLabel = "Temperature (C)";
         }
         else if(xType.equalsIgnoreCase("pressure")){
-            xAxisLabel = "Pressure (C)";
+            xAxisLabel = "Pressure (hPa)";
             xAxis.setFormatter(new SimpleAxisValueFormatter(1));
         }
         else if(xType.equalsIgnoreCase("date")){
@@ -186,16 +200,15 @@ public class HelloChartActivity extends ActionBarActivity {
         }
         xAxis.setName(xAxisLabel);
         xAxis.setTextColor(Color.BLACK);
-        xAxis.setHasTiltedLabels(false);
         xAxis.setMaxLabelChars(10);
-        xAxis.setInside(true);
+        xAxis.setInside(false);
 
         //Y AXIS SETUP
         if(yType.equalsIgnoreCase("temperature")){
             yAxisLabel = "Temperature (C)";
         }
         else if(yType.equalsIgnoreCase("pressure")){
-            yAxisLabel = "Pressure (C)";
+            yAxisLabel = "Pressure (hPa)";
             yAxis.setFormatter(new SimpleAxisValueFormatter(1));
         }
         else if(yType.equalsIgnoreCase("date")){
@@ -210,7 +223,7 @@ public class HelloChartActivity extends ActionBarActivity {
         yAxis.setName(yAxisLabel);
         yAxis.setTextColor(Color.BLACK);
         yAxis.setMaxLabelChars(10);
-        yAxis.setInside(true);
+        yAxis.setInside(false);
 
         //Setup Chart Data
         data.setAxisXBottom(xAxis);
@@ -223,7 +236,7 @@ public class HelloChartActivity extends ActionBarActivity {
             data.setBaseValue(0);
         }
         else if(yType.equalsIgnoreCase("pressure")){
-            data.setBaseValue(0);;
+            data.setBaseValue(0);
         }
         else if(yType.equalsIgnoreCase("date")){
             data.setBaseValue(Float.NEGATIVE_INFINITY);
@@ -242,29 +255,16 @@ public class HelloChartActivity extends ActionBarActivity {
         Viewport v = new Viewport(chart.getMaximumViewport());
 
         //Setup X Viewpoints
-        if(xType.equalsIgnoreCase("Humidity")){
-            v.left = 0;
-            v.right = 0;
-        }
-        else{
-            v.top += 3;
-            v.bottom -= 3;
-        }
+
+
         //Setup Y Viewpoints
-        if(yType.equalsIgnoreCase("Humidity")){
-            v.top = 100;
-            v.bottom = 0;
-        }
+
+        v.top += 5;
+        v.bottom -= 5;
 
         chart.setMaximumViewport(v);
         chart.setCurrentViewport(v);
         chart.setViewportCalculationEnabled(true);
-
-
-        //Default zoom will be scrolling left to right only
-        //chart.setZoomType(ZoomType.HORIZONTAL);
-
-        //chart.startDataAnimation();
 
     }
 
@@ -285,9 +285,9 @@ public class HelloChartActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_togglePoints) {
-
             hasPoints = chart.getLineChartData().getLines().get(0).hasPoints();
             hasPoints = !hasPoints;
+            Log.i(TAG, "Toggle Points - Value: " + hasPoints);
             chart.getLineChartData().getLines().get(0).setHasPoints(hasPoints);
             chart.invalidate();
 
@@ -296,13 +296,15 @@ public class HelloChartActivity extends ActionBarActivity {
         if (id == R.id.action_toggleLine) {
             hasLines = chart.getLineChartData().getLines().get(0).hasLines();
             hasLines = !hasLines;
+            Log.i(TAG, "Toggle Lines - Value: " + hasLines);
             chart.getLineChartData().getLines().get(0).setHasLines(hasLines);
-            chart.invalidate();;
+            chart.invalidate();
             return true;
         }
         if (id == R.id.action_toggleCubic) {
             isCubic = chart.getLineChartData().getLines().get(0).isCubic();
             isCubic = !isCubic;
+            Log.i(TAG, "Toggle Cubic - Value: " + isCubic);
             chart.getLineChartData().getLines().get(0).setCubic(isCubic);
             chart.invalidate();
 
@@ -311,20 +313,24 @@ public class HelloChartActivity extends ActionBarActivity {
         if (id == R.id.action_toggleArea) {
             isFilled = chart.getLineChartData().getLines().get(0).isFilled();
             isFilled = !isFilled;
+            Log.i(TAG, "Toggle Area - Value: " + isFilled);
             chart.getLineChartData().getLines().get(0).setFilled(isFilled);
             chart.invalidate();
             return true;
         }
         if (id == R.id.action_zoomX) {
             chart.setZoomType(ZoomType.HORIZONTAL);
+            Log.i(TAG, "Zoom/Scaling along X-Axis");
             return true;
         }
         if (id == R.id.action_zoomY) {
             chart.setZoomType(ZoomType.VERTICAL);
+            Log.i(TAG, "Zoom/Scaling along Y-Axis");
             return true;
         }
         if (id == R.id.action_zoomXY) {
             chart.setZoomType(ZoomType.HORIZONTAL_AND_VERTICAL);
+            Log.i(TAG, "Zoom/Scaling along X-Axis and Y-Axis");
             return true;
         }
 
