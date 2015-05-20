@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.cengalabs.flatui.FlatUI;
 
@@ -20,12 +21,12 @@ import java.util.TimeZone;
 import lecho.lib.hellocharts.formatter.SimpleAxisValueFormatter;
 import lecho.lib.hellocharts.formatter.SimpleLineChartValueFormatter;
 import lecho.lib.hellocharts.gesture.ZoomType;
+import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
-import lecho.lib.hellocharts.model.ValueShape;
 import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.view.LineChartView;
 
@@ -43,6 +44,7 @@ public class HelloChartActivity extends ActionBarActivity {
     private boolean hasPoints = true;
     private boolean isFilled = false;
     private boolean isCubic = false;
+    private boolean oneDay = false;
 
 
     @Override
@@ -60,7 +62,7 @@ public class HelloChartActivity extends ActionBarActivity {
         // Get X and Y types to know what values to graph
         String xType = GraphActivity.xType;
         String yType = GraphActivity.yType;
-        Log.i(TAG, "Graphing Y: "+ yType + " X: " + xType);
+        Log.i(TAG, "Graphing Y: " + yType + " X: " + xType);
 
 
         //List of vales to be graphed
@@ -79,7 +81,10 @@ public class HelloChartActivity extends ActionBarActivity {
 
         Log.i(TAG, "Graphing from Start Date: " + new Date(GraphActivity.startAsEpoch).toString());
         Log.i(TAG, "\n To End Date: " + new Date(GraphActivity.endAsEpoch).toString());
-        Log.i(TAG, "Difference in Long is" + (GraphActivity.endAsEpoch - GraphActivity.startAsEpoch));
+        Log.i(TAG, "Difference in Long is " + (GraphActivity.endAsEpoch - GraphActivity.startAsEpoch));
+
+        //one day check
+        oneDay = (GraphActivity.endAsEpoch - GraphActivity.startAsEpoch <= day);
 
 
 
@@ -97,11 +102,11 @@ public class HelloChartActivity extends ActionBarActivity {
                 xValue = sensorData.getPressure().floatValue();
             }
             else if(xType.equalsIgnoreCase("date")){
-                xValue = new Long(sensorData.getDate().getTime()).floatValue();
+                xValue = Long.valueOf(sensorData.getDate().getTime()).floatValue();
                 AxisValue xLabel = new AxisValue(xValue);
                 SimpleDateFormat dateFormat;
-                if((GraphActivity.endAsEpoch - GraphActivity.startAsEpoch) < day){
-                    dateFormat = new SimpleDateFormat("HH:mm:ss");
+                if(oneDay){
+                    dateFormat = new SimpleDateFormat("HH:mm:ss",Locale.US);
                 }
                 else{
                     dateFormat = new SimpleDateFormat("MM-dd-yyyy",Locale.US);
@@ -126,11 +131,11 @@ public class HelloChartActivity extends ActionBarActivity {
                 yValue = sensorData.getPressure().floatValue();
             }
             else if(yType.equalsIgnoreCase("date")){
-                yValue = new Long(sensorData.getDate().getTime()).floatValue();
+                yValue = Long.valueOf(sensorData.getDate().getTime()).floatValue();
                 AxisValue yLabel = new AxisValue(yValue);
                 SimpleDateFormat dateFormat;
-                if((GraphActivity.endAsEpoch - GraphActivity.startAsEpoch) <= day){
-                    dateFormat = new SimpleDateFormat("HH:mm:ss");
+                if(oneDay){
+                    dateFormat = new SimpleDateFormat("HH:mm:ss",Locale.US);
                 }
                 else{
                     dateFormat = new SimpleDateFormat("MM-dd-yyyy",Locale.US);
@@ -156,10 +161,10 @@ public class HelloChartActivity extends ActionBarActivity {
         List<Line> lines = new ArrayList<>(1);
 
         //Initial Line Setup
-        line.setPointRadius(3);
+        line.setPointRadius(4);
         line.setStrokeWidth(2);
-        line.setShape(ValueShape.CIRCLE);
         line.setHasLabelsOnlyForSelected(true);
+
 
         if(xType.equalsIgnoreCase("pressure")){
             line.setFormatter(new SimpleLineChartValueFormatter(1));
@@ -190,7 +195,17 @@ public class HelloChartActivity extends ActionBarActivity {
             xAxis.setFormatter(new SimpleAxisValueFormatter(1));
         }
         else if(xType.equalsIgnoreCase("date")){
-            xAxisLabel = "Date (MM-DD-YY)";
+            if(oneDay){
+                xAxisLabel = "Date ";
+                SimpleDateFormat dateFormatter = new SimpleDateFormat("MM-dd-yyyy");
+                dateFormatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+                xAxisLabel = xAxisLabel.concat(dateFormatter.format(new Date(
+                        Long.valueOf((GraphActivity.endAsEpoch + GraphActivity.startAsEpoch)/2))));
+                xAxisLabel = xAxisLabel.concat(" (HH:mm:ss)");
+            }
+            else{
+                xAxisLabel = "Date (MM-DD-YY)";
+            }
         }
         else if(xType.equalsIgnoreCase("humidity")){
             xAxisLabel = "Humidity (%)";
@@ -212,7 +227,17 @@ public class HelloChartActivity extends ActionBarActivity {
             yAxis.setFormatter(new SimpleAxisValueFormatter(1));
         }
         else if(yType.equalsIgnoreCase("date")){
-            yAxisLabel = "Date (MM-DD-YY)";
+            if(oneDay){
+                yAxisLabel = "Date ";
+                SimpleDateFormat dateFormatter = new SimpleDateFormat("MM-dd-yyyy");
+                dateFormatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+                yAxisLabel = yAxisLabel.concat(dateFormatter.format(new Date(
+                        Long.valueOf((GraphActivity.endAsEpoch + GraphActivity.startAsEpoch)/2))));
+                yAxisLabel = yAxisLabel.concat(" (HH:mm:ss)");
+            }
+            else{
+                yAxisLabel = "Date (MM-DD-YY)";
+            }
         }
         else if(yType.equalsIgnoreCase("humidity")){
             yAxisLabel = "Humidity (%)";
@@ -228,8 +253,7 @@ public class HelloChartActivity extends ActionBarActivity {
         //Setup Chart Data
         data.setAxisXBottom(xAxis);
         data.setAxisYLeft(yAxis);
-        data.setValueLabelsTextColor(Color.RED);
-        data.setValueLabelTextSize(2);
+        data.setValueLabelsTextColor(Color.BLACK);
         data.setBaseValue(Float.NEGATIVE_INFINITY);
 
         if(yType.equalsIgnoreCase("temperature")){
@@ -252,6 +276,7 @@ public class HelloChartActivity extends ActionBarActivity {
         //Get ChartView
         chart = (LineChartView) findViewById(R.id.chart);
         chart.setLineChartData(data);
+
         Viewport v = new Viewport(chart.getMaximumViewport());
 
         //Setup X Viewpoints
@@ -265,6 +290,14 @@ public class HelloChartActivity extends ActionBarActivity {
         chart.setMaximumViewport(v);
         chart.setCurrentViewport(v);
         chart.setViewportCalculationEnabled(true);
+        chart.setValueSelectionEnabled(true);
+        chart.setValueTouchEnabled(true);
+        ValueTouchListener touch = new ValueTouchListener();
+        touch.xType = xType;
+        touch.yType = yType;
+        Log.i(TAG,"ValueTouchListener X-TYPE: " + touch.xType);
+        Log.i(TAG,"ValueTouchListener Y-TYPE: " + touch.yType);
+        chart.setOnValueTouchListener(touch);
 
     }
 
@@ -336,6 +369,71 @@ public class HelloChartActivity extends ActionBarActivity {
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class ValueTouchListener implements LineChartOnValueSelectListener {
+        String xType,yType;
+
+
+        @Override
+        public void onValueSelected(int lineIndex, int pointIndex, PointValue value) {
+            String message = "Y-Axis: \t";
+            if(yType.equalsIgnoreCase("temperature")){
+                message = message.concat("Temperature = " + value.getY() + " C");
+            }
+            else if(yType.equalsIgnoreCase("pressure")){
+                message = message.concat("Pressure = " + value.getY() + " hPa");
+            }
+            else if(yType.equalsIgnoreCase("date")){
+                message = message.concat("Time = ");
+                SimpleDateFormat dateFormatter = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss z",Locale.US);
+                dateFormatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+                message = message.concat(
+                        dateFormatter.format(new Date(Float.valueOf(value.getY()).longValue())));
+
+            }
+            else if(yType.equalsIgnoreCase("humidity")){
+                message = message.concat("Humidity = " + value.getY() + " %");
+            }
+            else{// count
+                message = message.concat("Count = " + value.getY());
+            }
+
+            message = message.concat("\nX-Axis: \t");
+
+            if(xType.equalsIgnoreCase("temperature")){
+                message = message.concat("Temperature = " + value.getX() + " C");
+            }
+            else if(xType.equalsIgnoreCase("pressure")){
+                message = message.concat("Pressure = " + value.getX() + " hPa");
+            }
+            else if(xType.equalsIgnoreCase("date")){
+                message = message.concat("Time = ");
+                SimpleDateFormat dateFormatter = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss z",Locale.US);
+                dateFormatter.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+                message = message.concat(
+                        dateFormatter.format(new Date(Float.valueOf(value.getX()).longValue())));
+            }
+            else if(xType.equalsIgnoreCase("humidity")){
+                message = message.concat("Humidity = " + value.getX() + " %");
+            }
+            else{// count
+                message = message.concat("Count = " + value.getX());
+            }
+
+
+            Toast.makeText(HelloChartActivity.this, message, Toast.LENGTH_LONG).show();
+
+        }
+
+        @Override
+        public void onValueDeselected() {
+
+
+        }
+
     }
 
 
