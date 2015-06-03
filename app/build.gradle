@@ -22,7 +22,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:22.1.1'
+    compile 'com.android.support:appcompat-v7:22.0.0'
     compile files('libs/dropbox-sync-sdk-android.jar')
     compile 'com.github.lecho:hellocharts-library:1.5.5@aar'
     compile 'com.github.eluleci:flatui:3.0.0'
